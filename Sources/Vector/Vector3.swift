@@ -1,0 +1,43 @@
+import Foundation
+
+/// <#Description#>
+public struct Vector3<Scalar>: FixedLengthCollection where Scalar: Numeric {
+
+    /// Indices of a `Vector3` are described by `x`, `y` and `z`, which point to the equivalent value of the `Vector3`
+    ///
+    /// - x: The index of the value within the collection that describes the `x` position of the `Vector3`
+    /// - y: The index of the value within the collection that describes the `y` position of the `Vector3`
+    /// - z: The index of the value within the collection that describes the `z` position of the `Vector3`
+    public enum Index: Int, CaseIterable, FixedLengthIndex {
+        case x
+        case y
+        case z
+    }
+
+    /// The x-coordinate of the point.
+    public var x: Scalar
+
+    /// The y-coordinate of the point.
+    public var y: Scalar
+
+    /// The z-coordinate of the point.
+    public var z: Scalar
+
+    /// Access individual elements of the collection via subscript.
+    public subscript(position: Index) -> Scalar {
+        set {
+            switch position {
+            case .x: x = newValue
+            case .y: y = newValue
+            case .z: z = newValue
+            }
+        }
+        get {
+            switch position {
+            case .x: return x
+            case .y: return y
+            case .z: return z
+            }
+        }
+    }
+}

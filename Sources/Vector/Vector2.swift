@@ -1,7 +1,7 @@
 import Foundation
 
 /// <#Description#>
-public struct Vector2<Scalar>: FixedLengthCollection where Scalar: Numeric {
+public struct Vector2<Scalar>: Vector where Scalar: Numeric {
 
     /// Indices of a `Vector2` are described by `x` and `y`, which point to the `x` and `y` value of the `Vector2`
     ///
@@ -33,4 +33,20 @@ public struct Vector2<Scalar>: FixedLengthCollection where Scalar: Numeric {
             }
         }
     }
+
+    /// Initialize to a vector with all elements equal to `scalar`.
+    public init(scalar: Scalar) {
+        self.init(x: scalar, y: scalar)
+    }
+
+    /// Initializes to a vector at given scalar values.
+    ///
+    /// - Parameters:
+    ///   - x: The x-coordinate of the point.
+    ///   - y: The y-coordinate of the point.
+    public init(x: Scalar, y: Scalar) {
+        self.x = x
+        self.y = y
+    }
+
 }

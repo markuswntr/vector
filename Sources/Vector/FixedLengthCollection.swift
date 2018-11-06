@@ -45,7 +45,7 @@ extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Hashable
     }
 }
 
-/// A random access and a compile-time non-resizable collection (a collection of known and fixed length).
+/// A random access and compile-time non-resizable collection (a collection of known and fixed length).
 public protocol FixedLengthCollection: RandomAccessCollection where Index: FixedLengthIndex {
 
     /// Access individual elements of the collection via subscript.
@@ -75,9 +75,12 @@ public protocol FixedLengthCollection: RandomAccessCollection where Index: Fixed
     ///
     /// - Complexity: O(1)
     subscript(bounds: [Index]) -> [Element] { get }
+
+    /// Access individual elements of the collection via index.
+    func element(at index: Index) -> Element
 }
 
-public extension FixedLengthCollection where Index: CaseIterable {
+public extension FixedLengthCollection {
 
     public var startIndex: Index {
         return indices.startIndex
@@ -96,10 +99,28 @@ public extension FixedLengthCollection where Index: CaseIterable {
     }
 
     public func makeIterator() -> IndexingIterator<[Element]> {
-        return indices.map({ self[$0] }).makeIterator()
+        return indices.map(element(at:)).makeIterator()
     }
 
     public subscript(bounds: [Index]) -> [Element] {
-        return bounds.map({ self[$0] })
+        return bounds.map(element(at:))
+    }
+
+    func element(at index: Index) -> Element {
+        return self[index]
+    }
+}
+
+public extension FixedLengthCollection where Index: RawRepresentable, Index.RawValue == Int {
+
+    public subscript(bounds: [Index]) -> [Element] {
+        get {
+            return bounds.map(element(at:))
+        }
+        set {
+            for index in bounds {
+                self[index] = newValue[index.rawValue]
+            }
+        }
     }
 }

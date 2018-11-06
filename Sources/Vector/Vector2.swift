@@ -48,5 +48,4 @@ public struct Vector2<Scalar>: Vector where Scalar: Numeric {
         self.x = x
         self.y = y
     }
-
 }

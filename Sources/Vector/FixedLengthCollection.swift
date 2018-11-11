@@ -1,7 +1,22 @@
 import Foundation
 
 /// A type that represents a position in the collection
-public protocol FixedLengthIndex: Comparable {}
+public protocol FixedLengthIndex: Comparable {
+
+    /// A type that can represent a collection of all indices of this type.
+    associatedtype AllIndices: Collection where Self.AllIndices.Element == Self
+
+    /// A collection of all indices of this type.
+    static var allIndices: Self.AllIndices { get }
+}
+
+extension FixedLengthIndex where Self: CaseIterable {
+
+    /// A collection of all indices of this type.
+    public static var allIndices: Self.AllCases {
+        return allCases
+    }
+}
 
 extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Equatable {
     /// Returns a Boolean value indicating whether two values are equal.
@@ -46,10 +61,10 @@ extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Hashable
 }
 
 /// A random access and compile-time non-resizable collection (a collection of known and fixed length).
-public protocol FixedLengthCollection: RandomAccessCollection where Index: FixedLengthIndex {
+public protocol FixedLengthCollection: RandomAccessCollection where Self.Index: FixedLengthIndex { // TODO: Random Access is to strict
 
     /// Access individual elements of the collection via subscript.
-    subscript(position: Index) -> Element { get set }
+    subscript(position: Self.Index) -> Self.Element { get set }
 
     /// Accesses a contiguous subrange of the collection's elements.
     ///
@@ -74,49 +89,47 @@ public protocol FixedLengthCollection: RandomAccessCollection where Index: Fixed
     ///   the range must be valid indices of the collection.
     ///
     /// - Complexity: O(1)
-    subscript(bounds: [Index]) -> [Element] { get }
+    subscript(bounds: [Self.Index]) -> [Self.Element] { get }
 
     /// Access individual elements of the collection via index.
-    func element(at index: Index) -> Element
+    func element(at index: Self.Index) -> Self.Element
 }
 
 public extension FixedLengthCollection {
 
-    public var startIndex: Index {
+    public var startIndex: Self.Index {
         return indices.startIndex
     }
 
-    public var endIndex: Index {
+    public var endIndex: Self.Index {
         return indices.endIndex
     }
 
-    public func index(after i: Index) -> Index {
-        return indices.index(after: i)
+    public func index(after idx: Self.Index) -> Self.Index {
+        return indices.index(after: idx)
     }
 
-    public func index(before i: Index) -> Index {
-        return indices.index(before: i)
+    public func index(before idx: Self.Index) -> Self.Index {
+        return indices.index(before: idx)
     }
 
-    public func makeIterator() -> IndexingIterator<[Element]> {
+    public func makeIterator() -> IndexingIterator<[Self.Element]> {
         return indices.map(element(at:)).makeIterator()
     }
 
-    public subscript(bounds: [Index]) -> [Element] {
+    public subscript(bounds: [Self.Index]) -> [Self.Element] {
         return bounds.map(element(at:))
     }
 
-    func element(at index: Index) -> Element {
+    func element(at index: Self.Index) -> Self.Element {
         return self[index]
     }
 }
 
-public extension FixedLengthCollection where Index: RawRepresentable, Index.RawValue == Int {
+public extension FixedLengthCollection where Self.Index: RawRepresentable, Self.Index.RawValue == Int {
 
-    public subscript(bounds: [Index]) -> [Element] {
-        get {
-            return bounds.map(element(at:))
-        }
+    public subscript(bounds: [Self.Index]) -> [Self.Element] {
+        get { return bounds.map(element(at:)) }
         set {
             for index in bounds {
                 self[index] = newValue[index.rawValue]

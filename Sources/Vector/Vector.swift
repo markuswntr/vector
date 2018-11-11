@@ -1,14 +1,12 @@
 import Foundation
 
 /// A protocol for any vector
-public protocol Vector: FixedLengthCollection, ExpressibleByArrayLiteral {
+public protocol Vector: FixedLengthCollection {
 
     /// The scalar values of the vector
     associatedtype Scalar: Numeric
 
     associatedtype Element = Scalar
-
-    associatedtype ArrayLiteralElement = Element
 
     /// Initialize to the zero vector.
     init()
@@ -24,11 +22,15 @@ public protocol Vector: FixedLengthCollection, ExpressibleByArrayLiteral {
 
 extension Vector {
 
+    /// Initialize to the zero vector.
     public init() {
         self.init(scalar: 0)
     }
+}
 
-    // MARK: ExpressibleByArrayLiteral
+extension Vector where Self: ExpressibleByArrayLiteral {
+
+    public typealias ArrayLiteralElement = Element
 
     /// Creates an instance initialized with the given elements.
     ///
@@ -38,7 +40,7 @@ extension Vector {
     }
 }
 
-extension Vector where Index: RawRepresentable, Index.RawValue == Int {
+extension Vector where Self.Index: RawRepresentable, Self.Index.RawValue == Int {
 
     public init<S>(_ sequence: S) where S: Sequence, S.Element == Element {
         self.init(scalar: 0) // Pre-populate

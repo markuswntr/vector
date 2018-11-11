@@ -1,7 +1,7 @@
 import Foundation
 
 /// <#Description#>
-public struct Vector4<Scalar>: Vector where Scalar: Numeric {
+public struct Vector4<Scalar>: Vector, ExpressibleByArrayLiteral where Scalar: Numeric {
 
     /// Indices of a `Vector4` are described by `x`, `y`, `z` and `w`, which point to the equivalent value of the `Vector4`
     ///
@@ -28,6 +28,30 @@ public struct Vector4<Scalar>: Vector where Scalar: Numeric {
     /// The w-coordinate of the point.
     public var w: Scalar
 
+    /// Initialize to a vector with all elements equal to `scalar`.
+    public init(scalar: Scalar) {
+        self.init(x: scalar, y: scalar, z: scalar, w: scalar)
+    }
+
+    /// Initializes to a vector at given scalar values.
+    ///
+    /// - Parameters:
+    ///   - x: The x-coordinate of the point.
+    ///   - y: The y-coordinate of the point.
+    ///   - z: The z-coordinate of the point.
+    ///   - w: The w-coordinate of the point.
+    public init(x: Scalar, y: Scalar, z: Scalar, w: Scalar) {
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+    }
+}
+
+// MARK: - Subscript
+
+extension Vector4 {
+
     /// Access individual elements of the collection via subscript.
     public subscript(position: Index) -> Scalar {
         set {
@@ -46,24 +70,5 @@ public struct Vector4<Scalar>: Vector where Scalar: Numeric {
             case .w: return w
             }
         }
-    }
-
-    /// Initialize to a vector with all elements equal to `scalar`.
-    public init(scalar: Scalar) {
-        self.init(x: scalar, y: scalar, z: scalar, w: scalar)
-    }
-
-    /// Initializes to a vector at given scalar values.
-    ///
-    /// - Parameters:
-    ///   - x: The x-coordinate of the point.
-    ///   - y: The y-coordinate of the point.
-    ///   - z: The z-coordinate of the point.
-    ///   - w: The w-coordinate of the point.
-    public init(x: Scalar, y: Scalar, z: Scalar, w: Scalar) {
-        self.x = x
-        self.y = y
-        self.z = z
-        self.w = w
     }
 }

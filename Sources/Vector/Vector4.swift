@@ -10,10 +10,7 @@ public struct Vector4<Scalar>: Vector, ExpressibleByArrayLiteral where Scalar: N
     /// - z: The index of the value within the collection that describes the `z` position of the `Vector4`
     /// - w: The index of the value within the collection that describes the `w` position of the `Vector4`
     public enum Index: Int, CaseIterable, FixedLengthIndex {
-        case x
-        case y
-        case z
-        case w
+        case x, y, z, w
     }
 
     /// The x-coordinate of the point.

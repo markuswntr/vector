@@ -8,8 +8,7 @@ public struct Vector2<Scalar>: Vector, ExpressibleByArrayLiteral where Scalar: N
     /// - x: The index of the value within the collection that describes the `x` position of the `Vector2`
     /// - y: The index of the value within the collection that describes the `y` position of the `Vector2`
     public enum Index: Int, CaseIterable, FixedLengthIndex {
-        case x
-        case y
+        case x, y
     }
 
     /// The x-coordinate of the point.

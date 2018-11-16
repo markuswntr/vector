@@ -1,7 +1,7 @@
 import Foundation
 
 /// A non-resizable collection type, i.e. that is of known and fixed length at compile time.
-public protocol FixedLengthCollection: Collection where Self.Index: FixedLengthIndex {
+public protocol StaticCollection: Collection where Self.Index: StaticCollectionIndex {
 
     /// A type that provides the collection's iteration interface and
     /// encapsulates its iteration state.
@@ -12,7 +12,7 @@ public protocol FixedLengthCollection: Collection where Self.Index: FixedLengthI
     associatedtype Iterator = IndexingIterator<[Self.Element]>
 }
 
-extension FixedLengthCollection {
+extension StaticCollection {
 
     /// The position of the first element in a nonempty collection.
     ///
@@ -46,7 +46,7 @@ extension FixedLengthCollection {
     }
 }
 
-extension FixedLengthCollection where Self: BidirectionalCollection {
+extension StaticCollection where Self: BidirectionalCollection {
 
     public func index(after idx: Self.Index) -> Self.Index {
         return indices.index(after: idx)

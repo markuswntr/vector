@@ -1,8 +1,4 @@
 line_length: 140
 force_cast: error
-type_name:
-  excluded: # Hiden _Vector typealiases
-    - _Vector
-    - _Vector2
-    - _Vector3
-    - _Vector4
+identifier_name:
+    excluded: _vector

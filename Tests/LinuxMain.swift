@@ -1,5 +1,4 @@
 import XCTest
-
 import VectorTests
 
 var tests = [XCTestCaseEntry]()

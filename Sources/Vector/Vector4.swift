@@ -1,32 +1,24 @@
 import Foundation
 
-/// <#Description#>
-public struct Vector4<Scalar>: VectorCollection, ExpressibleByArrayLiteral where Scalar: Numeric & SIMDVectorizable4 {
+/// Indices of a `Vector4` are described by 4 indexed values
+///
+/// - index0: The index that describes the first position in the collection
+/// - index1: The index that describes the second position in the collection
+/// - index2: The index that describes the third position in the collection
+/// - index3: The index that describes the forth position in the collection
+public enum VectorIndex4: Int, VectorIndex {
+    case index0 // Examples: On Point2, this would be `x`, on sizes this would be `width`, on RGBA colors this would be `r`
+    case index1 // Examples: On Point2, this would be `y`, on sizes this would be `height`, on RGBA colors this would be `g`
+    case index2 // Examples: On Point3, this would be `z`, on rgba colors this would be `b`
+    case index3 // Examples: On RGBA colors this would be `a`
+}
 
-    /// The internal (simd) vector class in use of this vector
-    public typealias _Vector = Scalar._Vector4
+/// Defines a 4-dimensional vector, backed by a `RawVector4` and described by a `Scalar` type that is `RawVectorizable4`
+public protocol Vector4: VectorProtocol where Scalar: RawVectorizable4 {
 
-    /// The collection index describing this vector
-    public typealias Index = _Vector.VectorIndex
+    /// The vector type of the underlying optimized vector
+    associatedtype Vector = Scalar.RawVector4
 
-    /// The underlying/wrapped simd vector
-    private var vector: _Vector
-
-    /// Access individual elements of the collection via subscript.
-    public subscript(position: Index) -> Scalar {
-        set { vector[position] = newValue }
-        get { return vector[position] }
-    }
-
-    /// Initialize to a vector with all elements equal to `scalar`.
-    public init(scalar: Scalar) {
-        vector = _Vector(scalar: scalar)
-    }
-
-    /// Initialize to a vector with elements taken from `sequence`.
-    ///
-    /// - Precondition: `sequence` must have the exact same count as the vector.
-    public init<Sequence>(sequence: Sequence) where Sequence: Swift.Sequence, Sequence.Element == Element {
-        vector = _Vector(sequence: sequence)
-    }
+    /// Indices of a `Vector4` are described by `VectorIndex4`
+    associatedtype Index = VectorIndex4
 }

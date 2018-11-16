@@ -1,32 +1,22 @@
 import Foundation
 
-/// <#Description#>
-public struct Vector3<Scalar>: VectorCollection, ExpressibleByArrayLiteral where Scalar: Numeric & SIMDVectorizable3 {
+/// Indices of a `Vector3` are described by 3 indexed values
+///
+/// - index0: The index that describes the first position in the collection
+/// - index1: The index that describes the second position in the collection
+/// - index2: The index thate describes the third position in the collection
+public enum VectorIndex3: Int, VectorIndex {
+    case index0 // Examples: On Point2, this would be `x`, on sizes this would be `width`, on RGBA colors this would be `r`
+    case index1 // Examples: On Point2, this would be `y`, on sizes this would be `height`, on RGBA colors this would be `g`
+    case index2 // Examples: On Point3, this would be `z`, on RGBA colors this would be `b`
+}
 
-    /// The internal (simd) vector class in use of this vector
-    public typealias _Vector = Scalar._Vector3
+/// Defines a 3-dimensional vector, backed by a `RawVector3` and described by a `Scalar` type that is `RawVectorizable3`
+public protocol Vector3: VectorProtocol where Scalar: RawVectorizable3 {
 
-    /// The collection index describing this vector
-    public typealias Index = _Vector.VectorIndex
+    /// The vector type of the underlying optimized vector
+    associatedtype Vector = Scalar.RawVector3
 
-    /// The underlying/wrapped simd vector
-    private var vector: _Vector
-
-    /// Access individual elements of the collection via subscript.
-    public subscript(position: Index) -> Scalar {
-        set { vector[position] = newValue }
-        get { return vector[position] }
-    }
-
-    /// Initialize to a vector with all elements equal to `scalar`.
-    public init(scalar: Scalar) {
-        vector = _Vector(scalar: scalar)
-    }
-
-    /// Initialize to a vector with elements taken from `sequence`.
-    ///
-    /// - Precondition: `sequence` must have the exact same count as the vector.
-    public init<Sequence>(sequence: Sequence) where Sequence: Swift.Sequence, Sequence.Element == Element {
-        vector = _Vector(sequence: sequence)
-    }
+    /// Indices of a `Vector3` are described by `VectorIndex3`
+    associatedtype Index = VectorIndex3
 }

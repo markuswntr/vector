@@ -1,27 +1,18 @@
 import Foundation
 
 /// A non-resizable random access collection, that defines vector spaces (cardinality) by the length of it.
-public protocol VectorCollection: RandomAccessCollection, FixedLengthCollection {
-
-    /// The scalar values of the vector
-    associatedtype Scalar: Numeric
-
-    /// The collection elements are the `Scalar` values of the vector
-    associatedtype Element = Scalar
-
-    /// The index, and therefore the indices, are defined by a `VectorIndex`
-    associatedtype Index = VectorCollectionIndex
+public protocol VectorCollection: RandomAccessCollection, StaticCollection {
 
     /// Access individual elements of the collection via subscript.
     subscript(position: Self.Index) -> Self.Element { get set }
 
     /// Initialize to a vector with all elements at `scalar` value.
-    init(scalar: Scalar)
+    init(scalar: Self.Element)
 
     /// Initialize to a vector with elements taken from `sequence`.
     ///
     /// - Precondition: `sequence` must have the exact same count as the vector.
-    init<Sequence>(sequence: Sequence) where Sequence: Swift.Sequence, Sequence.Element == Self.Element
+    init<S>(sequence: S) where S: Sequence, S.Element == Self.Element
 
     /// The zero vector, i.e. the origin of the vector space.
     static var zero: Self { get }
@@ -56,7 +47,7 @@ extension VectorCollection where Self: ExpressibleByArrayLiteral {
 }
 
 // MARK: - Scalar is ExpressibleByIntegerLiteral {
-extension VectorCollection where Scalar: ExpressibleByIntegerLiteral {
+extension VectorCollection where Element: ExpressibleByIntegerLiteral {
 
     /// The zero vector, i.e. the origin of the vector space.
     public static var zero: Self {
@@ -65,7 +56,7 @@ extension VectorCollection where Scalar: ExpressibleByIntegerLiteral {
 }
 
 // MARK: - Scalar is FixedWidthInteger
-extension VectorCollection where Scalar: FixedWidthInteger {
+extension VectorCollection where Element: FixedWidthInteger {
 
     /// The maximum representable vector in this type.
     ///
@@ -85,7 +76,7 @@ extension VectorCollection where Scalar: FixedWidthInteger {
 }
 
 // MARK: - Scalar is FloatingPoint
-extension VectorCollection where Scalar: FloatingPoint {
+extension VectorCollection where Element: FloatingPoint {
 
     /// Positive infinity.
     ///

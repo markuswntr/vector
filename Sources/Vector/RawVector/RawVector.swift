@@ -1,10 +1,12 @@
 import Foundation
 
-/// A common protocol for any simd vector. Used to load a simd vector into a `Vector(2|3|4)` instance depending on the scalar type.
-public protocol SIMDVector: Collection where VectorIndex: RawRepresentable, VectorIndex.RawValue == Int {
+/// A protocol for highly efficient and parallel processing optimized "raw" vectors (e.g. simd).
+/// Types conforming to this protocol are used to load an optimized vector into a `Vector(2|3|4)` instance
+/// based on the `Element` type within the collection.
+public protocol RawVector: Collection where RawVectorIndex: RawRepresentable, RawVectorIndex.RawValue == Int {
 
     /// The fixed length vector index description used by the wrapping Vector(2|3|4).
-    associatedtype VectorIndex: VectorCollectionIndex
+    associatedtype RawVectorIndex: VectorIndex
 
     /// Initialize to a vector with all elements equal to `scalar`.
     init(_ scalar: Element)
@@ -18,7 +20,7 @@ public protocol SIMDVector: Collection where VectorIndex: RawRepresentable, Vect
     subscript(index: Int) -> Element { get set }
 }
 
-extension SIMDVector {
+extension RawVector {
 
     /// Initialize to a vector with all elements equal to `scalar`.
     public init(scalar: Element) {
@@ -33,7 +35,7 @@ extension SIMDVector {
     }
 
     /// Access individual elements of the vector via subscript.
-    public subscript(index: VectorIndex) -> Element {
+    public subscript(index: RawVectorIndex) -> Element {
         get { return self[index.rawValue] }
         set { self[index.rawValue] = newValue }
     }

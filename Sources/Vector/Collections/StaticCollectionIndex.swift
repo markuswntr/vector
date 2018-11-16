@@ -1,7 +1,7 @@
 import Foundation
 
 /// A type that represents a position in the collection
-public protocol FixedLengthIndex: Comparable {
+public protocol StaticCollectionIndex: Comparable {
 
     /// A type that can represent a collection of all indices of this type.
     associatedtype AllIndices: Collection where Self.AllIndices.Element == Self
@@ -10,7 +10,7 @@ public protocol FixedLengthIndex: Comparable {
     static var allIndices: Self.AllIndices { get }
 }
 
-extension FixedLengthIndex where Self: CaseIterable {
+extension StaticCollectionIndex where Self: CaseIterable {
 
     /// A collection of all indices of this type.
     public static var allIndices: Self.AllCases {
@@ -18,7 +18,7 @@ extension FixedLengthIndex where Self: CaseIterable {
     }
 }
 
-extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Equatable {
+extension StaticCollectionIndex where Self: RawRepresentable, Self.RawValue: Equatable {
 
     /// Returns a Boolean value indicating whether two values are equal.
     ///
@@ -33,7 +33,7 @@ extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Equatabl
     }
 }
 
-extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Comparable {
+extension StaticCollectionIndex where Self: RawRepresentable, Self.RawValue: Comparable {
 
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
@@ -50,7 +50,7 @@ extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Comparab
     }
 }
 
-extension FixedLengthIndex where Self: RawRepresentable, Self.RawValue: Hashable {
+extension StaticCollectionIndex where Self: RawRepresentable, Self.RawValue: Hashable {
 
     /// The hash value.
     ///

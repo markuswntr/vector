@@ -2,13 +2,19 @@ sudo: required
 dist: trusty
 language: generic
 osx_image: xcode10.1
-env: 'SWIFT_VERSION=swift-4.2'
 
 # Dependencies
-install: 'eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"'
+install: 'if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"; fi'
 
 # Build Script
-script: 'PATH="$HOME/.swiftenv/bin:$HOME/.swiftenv/shims:$PATH"; swift build && swift test; swift build -c release;'
+script: 'if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH="$HOME/.swiftenv/bin:$HOME/.swiftenv/shims:$PATH"; fi; swift build && swift test; swift build -c release;'
 
 # Code Coverage
 after_success: 'bash <(curl -s https://codecov.io/bash)'
+
+# Build Matrix
+matrix:
+    include:
+        - os: osx
+        - os: linux
+          env: SWIFT_VERSION=swift-4.2

@@ -1,20 +1,17 @@
+os:
+    - linux
+    - osx
+language: generic
 sudo: required
 dist: trusty
-language: generic
 osx_image: xcode10.1
-
-# Dependencies
-install: 'if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"; fi'
-
-# Build Script
-script: 'if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH="$HOME/.swiftenv/bin:$HOME/.swiftenv/shims:$PATH"; fi; swift build && swift test; swift build -c release;'
-
-# Code Coverage
-after_success: 'bash <(curl -s https://codecov.io/bash)'
-
-# Build Matrix
-matrix:
-    include:
-        - os: osx
-        - os: linux
-          env: SWIFT_VERSION=swift-4.2
+env:
+    - SWIFT_VERSION=swift-4.2
+install:
+    - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+script:
+    - swift build
+    - swift build -c release
+    - swift test
+after_success:
+    - eval "$(curl -sL https://codecov.io/bash)"

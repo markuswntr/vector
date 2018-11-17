@@ -1,5 +1,9 @@
 # Vector
 
+[![Swift Version](https://img.shields.io/badge/Swift-4.2-red.svg)](https://swift.org/)
+[![Build Status](https://travis-ci.org/markuswntr/vector.svg?branch=master)](https://travis-ci.org/markuswntr/vector)
+![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20linux-lightgrey.svg)
+
 Defines a fixed length collection, a vector collection, the properties of space, raw [SIMD](https://en.wikipedia.org/wiki/SIMD) vector and protocols for **Vector2** (e.g. Point2, Size2), **Vector3** (e.g. Point3, Size3, RGB Color) and **Vector4**  (e.g. RGBA Color).
 
 > Note: Protocol extensions on `Vector(2|3|4)` require **SIMD** to be available on the target hardware.

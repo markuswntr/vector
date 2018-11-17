@@ -21,8 +21,8 @@ extension TestPoint3 {
     }
 
     public var yVal: Scalar {
-        set { _vector[.index0] = newValue }
-        get { return _vector[.index0] }
+        set { _vector[.index1] = newValue }
+        get { return _vector[.index1] }
     }
 }
 

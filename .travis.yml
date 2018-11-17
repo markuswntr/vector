@@ -12,6 +12,6 @@ install:
 script:
     - swift build
     - swift build -c release
-    - swift test
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then swift test; fi
 after_success:
     - eval "$(curl -sL https://codecov.io/bash)"

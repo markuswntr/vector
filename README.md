@@ -6,9 +6,9 @@
 
 Defines a fixed length collection, a vector collection, the properties of space, raw [SIMD](https://en.wikipedia.org/wiki/SIMD) vector and protocols for **Vector2** (e.g. Point2, Size2), **Vector3** (e.g. Point3, Size3, RGB Color) and **Vector4**  (e.g. RGBA Color).
 
-> Note: Protocol extensions on `Vector(2|3|4)` require **SIMD** to be available on the target hardware.
-
 The `Vector` module does not have any dependency and builds on macOS and Linux.
+
+> Note: Protocol extensions on `Vector(2|3|4)` require **SIMD** to be available on the target hardware.
 
 ## 1. Collections
 

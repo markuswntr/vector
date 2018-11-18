@@ -2,8 +2,8 @@
 
 [![Swift Version](https://img.shields.io/badge/Swift-4.2-red.svg)](https://swift.org/)
 [![Build Status](https://travis-ci.com/markuswntr/vector.svg?branch=master)](https://travis-ci.com/markuswntr/vector)
-![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20linux-lightgrey.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/803ddcc9676c4910bd11b804801eeca8)](https://app.codacy.com/app/markuswntr/vector)
+![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20linux-lightgrey.svg)
 
 Defines a fixed length collection, a vector collection, the properties of space, raw [SIMD](https://en.wikipedia.org/wiki/SIMD) vector and protocols for **Vector2** (e.g. Point2, Size2), **Vector3** (e.g. Point3, Size3, RGB Color) and **Vector4**  (e.g. RGBA Color).
 

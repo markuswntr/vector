@@ -1,3 +1,4 @@
+import Foundation
 #if canImport(simd)
 import simd
 
@@ -81,4 +82,6 @@ extension Double: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
     public typealias RawVector4 = double4
 }
 
+#else
+#error("not yet supported target hardware")
 #endif

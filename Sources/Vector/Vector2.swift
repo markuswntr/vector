@@ -10,11 +10,24 @@ public enum VectorIndex2: Int, VectorIndex {
 }
 
 /// Defines a 2-dimensional vector, backed by a `RawVector2` and described by a `Scalar` type that is `RawVectorizable2`
-public protocol Vector2: VectorProtocol where Scalar: RawVectorizable2 {
+public struct Vector2<Scalar>: VectorProtocol where Scalar: Numeric & RawVectorizable2 {
+
+    /// Vector is defined by `Scalar` values, that are `Element`s of this collection
+    public typealias Element = Scalar
 
     /// The vector type of the underlying optimized vector
-    associatedtype Vector = Scalar.RawVector2
+    public typealias Vector = Scalar.RawVector2
 
     /// Indices of a `Vector2` are described by `VectorIndex2`
-    associatedtype Index = VectorIndex2
+    public typealias Index = VectorIndex2
+
+    /// The underlying optimized vector
+    public var _vector: Vector
+
+    /// Initializes `self` with given vector as underlying optimized vector
+    ///
+    /// - Parameter vector: The vector to mask behind `self`.
+    public init(vector: Vector) {
+        _vector = vector
+    }
 }

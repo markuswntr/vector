@@ -12,11 +12,24 @@ public enum VectorIndex3: Int, VectorIndex {
 }
 
 /// Defines a 3-dimensional vector, backed by a `RawVector3` and described by a `Scalar` type that is `RawVectorizable3`
-public protocol Vector3: VectorProtocol where Scalar: RawVectorizable3 {
+public struct Vector3<Scalar>: VectorProtocol where Scalar: Numeric & RawVectorizable3 {
+
+    /// Vector is defined by `Scalar` values, that are `Element`s of this collection
+    public typealias Element = Scalar
 
     /// The vector type of the underlying optimized vector
-    associatedtype Vector = Scalar.RawVector3
+    public typealias Vector = Scalar.RawVector3
 
     /// Indices of a `Vector3` are described by `VectorIndex3`
-    associatedtype Index = VectorIndex3
+    public typealias Index = VectorIndex3
+
+    /// The underlying optimized vector
+    public var _vector: Vector
+
+    /// Initializes `self` with given vector as underlying optimized vector
+    ///
+    /// - Parameter vector: The vector to mask behind `self`.
+    public init(vector: Vector) {
+        _vector = vector
+    }
 }

@@ -14,11 +14,24 @@ public enum VectorIndex4: Int, VectorIndex {
 }
 
 /// Defines a 4-dimensional vector, backed by a `RawVector4` and described by a `Scalar` type that is `RawVectorizable4`
-public protocol Vector4: VectorProtocol where Scalar: RawVectorizable4 {
+public struct Vector4<Scalar>: VectorProtocol where Scalar: Numeric & RawVectorizable4 {
 
-    /// The vector type of the underlying optimized vector
-    associatedtype Vector = Scalar.RawVector4
+    /// Vector is defined by `Scalar` values, that are `Element`s of this collection
+    public typealias Element = Scalar
+
+        /// Indices of a `Vector4` are described by `VectorIndex4`
+    public typealias Vector = Scalar.RawVector4
 
     /// Indices of a `Vector4` are described by `VectorIndex4`
-    associatedtype Index = VectorIndex4
+    public typealias Index = VectorIndex4
+
+    /// The underlying optimized vector
+    public var _vector: Vector
+
+    /// Initializes `self` with given vector as underlying optimized vector
+    ///
+    /// - Parameter vector: The vector to mask behind `self`.
+    public init(vector: Vector) {
+        _vector = vector
+    }
 }

@@ -7,7 +7,7 @@ public protocol VectorCollection: RandomAccessCollection, StaticCollection {
     subscript(position: Self.Index) -> Self.Element { get set }
 
     /// Initialize to a vector with all elements at `scalar` value.
-    init(scalar: Self.Element)
+    init(repeating scalar: Self.Element)
 
     /// Initialize to a vector with elements taken from `sequence`.
     ///
@@ -51,7 +51,7 @@ extension VectorCollection where Element: ExpressibleByIntegerLiteral {
 
     /// The zero vector, i.e. the origin of the vector space.
     public static var zero: Self {
-        return .init(scalar: 0)
+        return .init(repeating: 0)
     }
 }
 
@@ -63,7 +63,7 @@ extension VectorCollection where Element: FixedWidthInteger {
     /// For unsigned integer scalars, all values of this vector are `(2 ** bitWidth) - 1`, where `**` is exponentiation.
     /// For signed integer scalars, all values of this vector are `(2 ** (bitWidth - 1)) - 1`.
     public static var max: Self {
-        return .init(scalar: .max)
+        return .init(repeating: .max)
     }
 
     /// The minimum representable vector in this type.
@@ -71,7 +71,7 @@ extension VectorCollection where Element: FixedWidthInteger {
     /// For unsigned integer types, all values are always `0` and therefore equal to the `zero` vector.
     /// For signed integer scalars, all values of this vector are `-(2 ** (bitWidth - 1))`, where `**` is exponentiation.
     public static var min: Self {
-        return .init(scalar: .min)
+        return .init(repeating: .min)
     }
 }
 
@@ -87,7 +87,7 @@ extension VectorCollection where Element: FloatingPoint {
     ///     // y == Vector2<Double>.infinity
     ///     // y > x
     public static var infinity: Self {
-        return .init(scalar: .infinity)
+        return .init(repeating: .infinity)
     }
 
     /// The greatest finite vector representable by this type.
@@ -97,7 +97,7 @@ extension VectorCollection where Element: FloatingPoint {
     /// This vectors values corresponds to type-specific C macros such as `FLT_MAX` and `DBL_MAX`.
     /// The naming of those macros is slightly misleading, because `infinity` is greater than this value.
     public static var greatestFinite: Self {
-        return .init(scalar: .greatestFiniteMagnitude)
+        return .init(repeating: .greatestFiniteMagnitude)
     }
 
     /// The least positive normal vector.
@@ -109,7 +109,7 @@ extension VectorCollection where Element: FloatingPoint {
     /// This vectors values corresponds to type-specific C macros such as `FLT_MIN` and `DBL_MIN`.
     /// The naming of those macros is slightly misleading, because subnormals, zeros, and negative numbers are smaller than this value.
     public static var leastNormal: Self {
-        return .init(scalar: .leastNormalMagnitude)
+        return .init(repeating: .leastNormalMagnitude)
     }
 
     /// The least positive number.
@@ -119,6 +119,6 @@ extension VectorCollection where Element: FloatingPoint {
     /// `leastNonzeroMagnitude` is smaller than `leastNormalMagnitude`;
     /// otherwise they are equal.
     public static var leastNonzero: Self {
-        return .init(scalar: .leastNonzeroMagnitude)
+        return .init(repeating: .leastNonzeroMagnitude)
     }
 }

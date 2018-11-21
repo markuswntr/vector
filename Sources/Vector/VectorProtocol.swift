@@ -3,12 +3,6 @@ import Foundation
 // Defines a n-dimensional vector, backed by a `RawVector` and described by `Scalar` values
 public protocol VectorProtocol: VectorCollection where Vector.Element == Self.Element {
 
-    /// The scalar type of the vector
-    associatedtype Scalar: Numeric
-
-    /// Vector is defined by `Scalar` values, that are `Element`s of this collection
-    associatedtype Element = Scalar
-
     /// The vector type of the underlying optimized vector
     associatedtype Vector: RawVector
 
@@ -28,7 +22,7 @@ public protocol VectorProtocol: VectorCollection where Vector.Element == Self.El
 extension VectorProtocol {
 
     /// Initialize to a vector with all elements at `scalar` value.
-    public init(scalar: Self.Element) {
+    public init(repeating scalar: Self.Element) {
         self.init(vector: Self.Vector(scalar: scalar))
     }
 
@@ -40,7 +34,7 @@ extension VectorProtocol {
     }
 }
 
-extension VectorProtocol where Vector.RawVectorIndex == Self.Index {
+extension VectorProtocol where Self.Vector.RawVectorIndex == Self.Index {
 
     /// Access individual elements of the vector via subscript.
     public subscript(position: Self.Index) -> Self.Element {
@@ -49,7 +43,7 @@ extension VectorProtocol where Vector.RawVectorIndex == Self.Index {
     }
 }
 
-extension VectorProtocol where Vector.Iterator == Self.Iterator {
+extension VectorProtocol where Self.Vector.Iterator == Self.Iterator {
 
     /// Returns an iterator over the elements of the collection.
     public func makeIterator() -> Self.Iterator {
@@ -57,7 +51,7 @@ extension VectorProtocol where Vector.Iterator == Self.Iterator {
     }
 }
 
-extension VectorProtocol where Vector: Equatable {
+extension VectorProtocol where Self.Vector: Equatable {
 
     /// Returns a Boolean value indicating whether two values are equal.
     ///

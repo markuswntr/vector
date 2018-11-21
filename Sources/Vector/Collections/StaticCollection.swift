@@ -2,14 +2,6 @@ import Foundation
 
 /// A non-resizable collection type, i.e. that is of known and fixed length at compile time.
 public protocol StaticCollection: Collection where Self.Index: StaticCollectionIndex {
-
-    /// A type that provides the collection's iteration interface and
-    /// encapsulates its iteration state.
-    ///
-    /// By default, a collection conforms to the `Sequence` protocol by
-    /// supplying `IndexingIterator` as its associated `Iterator`
-    /// type.
-    associatedtype Iterator = IndexingIterator<[Self.Element]>
 }
 
 extension StaticCollection {

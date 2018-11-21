@@ -1,8 +1,7 @@
 import Foundation
 
 /// A non-resizable collection type, i.e. that is of known and fixed length at compile time.
-public protocol StaticCollection: Collection where Self.Index: StaticCollectionIndex {
-}
+public protocol StaticCollection: Collection where Self.Index: StaticCollectionIndex {}
 
 extension StaticCollection {
 
@@ -31,20 +30,29 @@ extension StaticCollection {
     public var endIndex: Self.Index {
         return indices.endIndex
     }
-
-    /// Returns an iterator over the elements of the collection.
-    public func makeIterator() -> IndexingIterator<[Self.Element]> {
-        return indices.map({ self[$0] }).makeIterator()
-    }
 }
 
 extension StaticCollection where Self: BidirectionalCollection {
 
-    public func index(after idx: Self.Index) -> Self.Index {
-        return indices.index(after: idx)
-    }
-
+    /// Returns the position immediately before the given index.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be greater than
+    ///   `startIndex`.
+    /// - Returns: The index value immediately before `i`.
     public func index(before idx: Self.Index) -> Self.Index {
         return indices.index(before: idx)
+    }
+
+    /// Returns the position immediately after the given index.
+    ///
+    /// The successor of an index must be well defined. For an index `i` into a
+    /// collection `c`, calling `c.index(after: i)` returns the same index every
+    /// time.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be less than
+    ///   `endIndex`.
+    /// - Returns: The index value immediately after `i`.
+    public func index(after idx: Self.Index) -> Self.Index {
+        return indices.index(after: idx)
     }
 }

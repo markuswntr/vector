@@ -6,7 +6,7 @@ import Foundation
 /// - index1: The index that describes the second position in the collection
 /// - index2: The index that describes the third position in the collection
 /// - index3: The index that describes the forth position in the collection
-public enum VectorIndex4: Int, VectorIndex {
+public enum VectorIndex4: Swift.Int, VectorIndex {
     case index0 // Examples: On Point2, this would be `x`, on sizes this would be `width`, on RGBA colors this would be `r`
     case index1 // Examples: On Point2, this would be `y`, on sizes this would be `height`, on RGBA colors this would be `g`
     case index2 // Examples: On Point3, this would be `z`, on rgba colors this would be `b`

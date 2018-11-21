@@ -3,7 +3,7 @@ import Foundation
 /// A protocol for highly efficient and parallel processing optimized "raw" vectors (e.g. simd).
 /// Types conforming to this protocol are used to load an optimized vector into a `Vector(2|3|4)` instance
 /// based on the `Element` type within the collection.
-public protocol RawVector: Collection where RawVectorIndex: RawRepresentable, RawVectorIndex.RawValue == Int {
+public protocol RawVector: Collection where RawVectorIndex: RawRepresentable, RawVectorIndex.RawValue == Swift.Int {
 
     /// The fixed length vector index description used by the wrapping Vector(2|3|4).
     associatedtype RawVectorIndex: VectorIndex
@@ -17,7 +17,7 @@ public protocol RawVector: Collection where RawVectorIndex: RawRepresentable, Ra
     init(_ array: [Element])
 
     /// Access individual elements of the vector via subscript.
-    subscript(index: Int) -> Element { get set }
+    subscript(index: Swift.Int) -> Element { get set }
 }
 
 extension RawVector {

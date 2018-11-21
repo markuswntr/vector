@@ -56,7 +56,7 @@ extension StaticCollectionIndex where Self: RawRepresentable, Self.RawValue: Has
     ///
     /// Hash values are not guaranteed to be equal across different executions of
     /// your program. Do not save hash values to use during a future execution.
-    public var hashValue: Int {
+    public var hashValue: Swift.Int {
         return rawValue.hashValue
     }
 }

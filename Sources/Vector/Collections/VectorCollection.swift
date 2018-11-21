@@ -22,7 +22,7 @@ public protocol VectorCollection: RandomAccessCollection, StaticCollection {
 extension VectorCollection {
 
     /// Cardinality of the vector space
-    public var cardinality: Int {
+    public var cardinality: Swift.Int {
         return count
     }
 }

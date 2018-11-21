@@ -1,10 +1,18 @@
 import Foundation
 
 // Defines a n-dimensional vector, backed by a `RawVector` and described by `Scalar` values
-public protocol VectorProtocol: VectorCollection, ExpressibleByArrayLiteral where Vector.Element == Self.Element {
+public protocol VectorProtocol: VectorCollection, ExpressibleByArrayLiteral where Self.Element == Vector.Element {
 
     /// The vector type of the underlying optimized vector
     associatedtype Vector: RawVector
+
+    /// A type that provides the collection's iteration interface and
+    /// encapsulates its iteration state.
+    ///
+    /// By default, a collection conforms to the `Sequence` protocol by
+    /// supplying `IndexingIterator` as its associated `Iterator`
+    /// type.
+    associatedtype Iterator = Vector.Iterator
 
     /// The underlying parallel computing optimized vector
     var _vector: Vector { get set }
@@ -36,16 +44,16 @@ extension VectorProtocol {
     }
 }
 
-extension VectorProtocol where Self.Vector.RawVectorIndex == Self.Index {
+extension VectorProtocol where Index: RawRepresentable, Index.RawValue == Swift.Int {
 
     /// Access individual elements of the vector via subscript.
     public subscript(position: Self.Index) -> Self.Element {
-        @_transparent set { _vector[position] = newValue }
-        @_transparent get { return _vector[position] }
+        @_transparent set { _vector[position.rawValue] = newValue }
+        @_transparent get { return _vector[position.rawValue] }
     }
 }
 
-extension VectorProtocol where Self.Vector.Iterator == Self.Iterator {
+extension VectorProtocol where Self.Iterator == Vector.Iterator {
 
     /// Returns an iterator over the elements of the collection.
     @_transparent

@@ -16,15 +16,12 @@ public typealias UInt = Swift.UInt32
 
 extension VectorShims.Int2: RawVector {
     public typealias Scalar = Vector.Int
-    public typealias RawVectorIndex = VectorIndex2
 }
 extension VectorShims.Int3: RawVector {
     public typealias Scalar = Vector.Int
-    public typealias RawVectorIndex = VectorIndex3
 }
 extension VectorShims.Int4: RawVector {
     public typealias Scalar = Vector.Int
-    public typealias RawVectorIndex = VectorIndex4
 }
 extension Vector.Int: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
     public typealias RawVector2 = VectorShims.Int2
@@ -36,15 +33,12 @@ extension Vector.Int: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
 
 extension VectorShims.UInt2: RawVector {
     public typealias Scalar = Vector.UInt
-    public typealias RawVectorIndex = VectorIndex2
 }
 extension VectorShims.UInt3: RawVector {
     public typealias Scalar = Vector.UInt
-    public typealias RawVectorIndex = VectorIndex3
 }
 extension VectorShims.UInt4: RawVector {
     public typealias Scalar = Vector.UInt
-    public typealias RawVectorIndex = VectorIndex4
 }
 extension Vector.UInt: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
     public typealias RawVector2 = VectorShims.UInt2
@@ -56,15 +50,12 @@ extension Vector.UInt: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
 
 extension VectorShims.Float2: RawVector {
     public typealias Scalar = Swift.Float
-    public typealias RawVectorIndex = VectorIndex2
 }
 extension VectorShims.Float3: RawVector {
     public typealias Scalar = Swift.Float
-    public typealias RawVectorIndex = VectorIndex3
 }
 extension VectorShims.Float4: RawVector {
     public typealias Scalar = Swift.Float
-    public typealias RawVectorIndex = VectorIndex4
 }
 extension Swift.Float: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
     public typealias RawVector2 = VectorShims.Float2
@@ -76,15 +67,12 @@ extension Swift.Float: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
 
 extension VectorShims.Double2: RawVector {
     public typealias Scalar = Swift.Double
-    public typealias RawVectorIndex = VectorIndex2
 }
 extension VectorShims.Double3: RawVector {
     public typealias Scalar = Swift.Double
-    public typealias RawVectorIndex = VectorIndex3
 }
 extension VectorShims.Double4: RawVector {
     public typealias Scalar = Swift.Double
-    public typealias RawVectorIndex = VectorIndex4
 }
 extension Swift.Double: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
     public typealias RawVector2 = VectorShims.Double2

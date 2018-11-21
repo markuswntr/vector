@@ -4,10 +4,11 @@ import PackageDescription
 let package = Package(
     name: "Vector",
     products: [
-        .library(name: "Vector", targets: ["Vector"])
+        .library(name: "Vector", targets: ["Vector", "VectorShims"])
     ],
     targets: [
-        .target(name: "Vector", dependencies: []),
+        .target(name: "VectorShims", dependencies: [], path: "Sources/Shims"),
+        .target(name: "Vector", dependencies: ["VectorShims"], path: "Sources/Vector"),
         .testTarget(name: "VectorTests", dependencies: ["Vector"])
     ]
 )

@@ -22,6 +22,7 @@ public protocol VectorProtocol: VectorCollection, ExpressibleByArrayLiteral wher
 extension VectorProtocol {
 
     /// Initialize to a vector with all elements at `scalar` value.
+    @_transparent
     public init(repeating scalar: Self.Element) {
         self.init(vector: Self.Vector(scalar: scalar))
     }
@@ -29,6 +30,7 @@ extension VectorProtocol {
     /// Initialize to a vector with elements taken from `sequence`.
     ///
     /// - Precondition: `sequence` must have the exact same count as the vector.
+    @_transparent 
     public init<S>(sequence: S) where S: Sequence, Self.Element == S.Element {
         self.init(vector: Self.Vector(sequence: sequence))
     }
@@ -38,14 +40,15 @@ extension VectorProtocol where Self.Vector.RawVectorIndex == Self.Index {
 
     /// Access individual elements of the vector via subscript.
     public subscript(position: Self.Index) -> Self.Element {
-        set { _vector[position] = newValue }
-        get { return _vector[position] }
+        @_transparent set { _vector[position] = newValue }
+        @_transparent get { return _vector[position] }
     }
 }
 
 extension VectorProtocol where Self.Vector.Iterator == Self.Iterator {
 
     /// Returns an iterator over the elements of the collection.
+    @_transparent
     public func makeIterator() -> Self.Iterator {
         return _vector.makeIterator()
     }
@@ -60,6 +63,7 @@ extension VectorProtocol where Self.Vector: Equatable {
     /// - Parameters:
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
+    @_transparent
     public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs._vector == rhs._vector
     }

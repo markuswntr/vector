@@ -23,6 +23,7 @@ public protocol RawVector: Collection where RawVectorIndex: RawRepresentable, Ra
 extension RawVector {
 
     /// Initialize to a vector with all elements equal to `scalar`.
+    @_transparent 
     public init(scalar: Element) {
         self.init(scalar)
     }
@@ -30,13 +31,14 @@ extension RawVector {
     /// Initialize to a vector with elements taken from `sequence`.
     ///
     /// - Precondition: `sequence` must have the exact same count as the vector.
-    init<Sequence>(sequence: Sequence) where Sequence: Swift.Sequence, Sequence.Element == Self.Element {
+    @_transparent
+    public init<Sequence>(sequence: Sequence) where Sequence: Swift.Sequence, Sequence.Element == Self.Element {
         self.init(Array(sequence))
     }
 
     /// Access individual elements of the vector via subscript.
     public subscript(index: RawVectorIndex) -> Element {
-        get { return self[index.rawValue] }
-        set { self[index.rawValue] = newValue }
+        @_transparent get { return self[index.rawValue] }
+        @_transparent set { self[index.rawValue] = newValue }
     }
 }

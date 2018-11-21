@@ -27,7 +27,7 @@ public struct Vector2<Scalar>: VectorProtocol, Equatable where Scalar: Numeric &
     /// Initializes `self` with given vector as underlying optimized vector
     ///
     /// - Parameter vector: The vector to mask behind `self`.
-    public init(vector: Vector) {
+    @_transparent public init(vector: Vector) {
         _vector = vector
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 // Defines a n-dimensional vector, backed by a `RawVector` and described by `Scalar` values
-public protocol VectorProtocol: VectorCollection where Vector.Element == Self.Element {
+public protocol VectorProtocol: VectorCollection, ExpressibleByArrayLiteral where Vector.Element == Self.Element {
 
     /// The vector type of the underlying optimized vector
     associatedtype Vector: RawVector

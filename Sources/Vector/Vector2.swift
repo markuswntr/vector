@@ -10,7 +10,7 @@ public enum VectorIndex2: Swift.Int, VectorIndex {
 }
 
 /// Defines a 2-dimensional vector, backed by a `RawVector2` and described by a `Scalar` type that is `RawVectorizable2`
-public struct Vector2<Scalar>: VectorProtocol where Scalar: Numeric & RawVectorizable2 {
+public struct Vector2<Scalar>: VectorProtocol, Equatable where Scalar: Numeric & RawVectorizable2, Scalar.RawVector2: Equatable {
 
     /// Vector is defined by `Scalar` values, that are `Element`s of this collection
     public typealias Element = Scalar

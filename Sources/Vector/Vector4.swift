@@ -14,7 +14,7 @@ public enum VectorIndex4: Swift.Int, VectorIndex {
 }
 
 /// Defines a 4-dimensional vector, backed by a `RawVector4` and described by a `Scalar` type that is `RawVectorizable4`
-public struct Vector4<Scalar>: VectorProtocol where Scalar: Numeric & RawVectorizable4 {
+public struct Vector4<Scalar>: VectorProtocol, Equatable where Scalar: Numeric & RawVectorizable4, Scalar.RawVector4: Equatable {
 
     /// Vector is defined by `Scalar` values, that are `Element`s of this collection
     public typealias Element = Scalar

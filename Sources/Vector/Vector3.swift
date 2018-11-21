@@ -12,7 +12,7 @@ public enum VectorIndex3: Swift.Int, VectorIndex {
 }
 
 /// Defines a 3-dimensional vector, backed by a `RawVector3` and described by a `Scalar` type that is `RawVectorizable3`
-public struct Vector3<Scalar>: VectorProtocol where Scalar: Numeric & RawVectorizable3 {
+public struct Vector3<Scalar>: VectorProtocol, Equatable where Scalar: Numeric & RawVectorizable3, Scalar.RawVector3: Equatable {
 
     /// Vector is defined by `Scalar` values, that are `Element`s of this collection
     public typealias Element = Scalar

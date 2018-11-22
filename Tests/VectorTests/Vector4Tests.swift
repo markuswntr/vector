@@ -18,9 +18,17 @@ final class Vector4Tests: XCTestCase {
         XCTAssertEqual(zeroArrayLiteral, .zero)
     }
 
+    func testDefaultImplementations() {
+        XCTAssertNotNil(Vector4<Int32>(repeating: 4))
+        XCTAssertNotNil(Vector4<UInt32>(repeating: 4))
+        XCTAssertNotNil(Vector4<Float>(repeating: 4))
+        XCTAssertNotNil(Vector4<Double>(repeating: 4))
+    }
+
     static var allTests = [
         ("testZeroScalar", testZeroScalar),
         ("testZeroCollection", testZeroCollection),
-        ("testZeroArrayLiteral", testZeroArrayLiteral)
+        ("testZeroArrayLiteral", testZeroArrayLiteral),
+        ("testDefaultImplementations", testDefaultImplementations)
     ]
 }

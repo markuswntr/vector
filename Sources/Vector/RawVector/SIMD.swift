@@ -4,13 +4,13 @@ import simd
 
 // MARK: - Int
 
-extension simd.int2: RawVector, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
+extension simd.int2: RawVector2, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
     public typealias Scalar = Swift.Int32
 }
-extension simd.int3: RawVector, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
+extension simd.int3: RawVector3, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
     public typealias Scalar = Swift.Int32
 }
-extension simd.int4: RawVector, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
+extension simd.int4: RawVector4, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
     public typealias Scalar = Swift.Int32
 }
 extension Swift.Int32: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
@@ -21,13 +21,13 @@ extension Swift.Int32: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
 
 // MARK: - UInt
 
-extension simd.uint2: RawVector, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
+extension simd.uint2: RawVector2, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
     public typealias Scalar = Swift.UInt32
 }
-extension simd.uint3: RawVector, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
+extension simd.uint3: RawVector3, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
     public typealias Scalar = Swift.UInt32
 }
-extension simd.uint4: RawVector, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
+extension simd.uint4: RawVector4, AdditiveOverflowArithmetic, MultiplicativeOverflowArithmetic {
     public typealias Scalar = Swift.UInt32
 }
 extension Swift.UInt32: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
@@ -38,13 +38,13 @@ extension Swift.UInt32: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
 
 // MARK: - Float
 
-extension simd.float2: RawVector, AdditiveArithmetic, MultiplicativeArithmetic {
+extension simd.float2: RawVector2, AdditiveArithmetic, MultiplicativeArithmetic {
     public typealias Scalar = Swift.Float
 }
-extension simd.float3: RawVector, AdditiveArithmetic, MultiplicativeArithmetic {
+extension simd.float3: RawVector3, AdditiveArithmetic, MultiplicativeArithmetic {
     public typealias Scalar = Swift.Float
 }
-extension simd.float4: RawVector, AdditiveArithmetic, MultiplicativeArithmetic {
+extension simd.float4: RawVector4, AdditiveArithmetic, MultiplicativeArithmetic {
     public typealias Scalar = Swift.Float
 }
 extension Swift.Float: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
@@ -55,13 +55,13 @@ extension Swift.Float: RawVectorizable2, RawVectorizable3, RawVectorizable4 {
 
 // MARK: - Double
 
-extension simd.double2: RawVector, AdditiveArithmetic, MultiplicativeArithmetic {
+extension simd.double2: RawVector2, AdditiveArithmetic, MultiplicativeArithmetic {
     public typealias Scalar = Swift.Double
 }
-extension simd.double3: RawVector, AdditiveArithmetic, MultiplicativeArithmetic {
+extension simd.double3: RawVector3, AdditiveArithmetic, MultiplicativeArithmetic {
     public typealias Scalar = Swift.Double
 }
-extension simd.double4: RawVector, AdditiveArithmetic, MultiplicativeArithmetic {
+extension simd.double4: RawVector4, AdditiveArithmetic, MultiplicativeArithmetic {
     public typealias Scalar = Swift.Double
 }
 extension Swift.Double: RawVectorizable2, RawVectorizable3, RawVectorizable4 {

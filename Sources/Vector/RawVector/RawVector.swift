@@ -33,3 +33,23 @@ extension RawVector {
         self.init(Array(sequence))
     }
 }
+
+// MARK: - Specifics
+
+public protocol RawVector2: RawVector {
+
+    /// Initialize a vector with the specified elements.
+    init(_ x: Element, _ y: Element)
+}
+
+public protocol RawVector3: RawVector {
+
+    /// Initialize a vector with the specified elements.
+    init(_ x: Element, _ y: Element, _ z: Element)
+}
+
+public protocol RawVector4: RawVector {
+
+    /// Initialize a vector with the specified elements.
+    init(_ x: Element, _ y: Element, _ z: Element, _ w: Element)
+}

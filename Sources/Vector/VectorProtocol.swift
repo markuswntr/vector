@@ -27,6 +27,8 @@ public protocol VectorProtocol: VectorCollection, ExpressibleByArrayLiteral wher
     init(vector: Vector)
 }
 
+// MARK: - Initializer Extensions
+
 extension VectorProtocol {
 
     /// Initialize to a vector with all elements at `scalar` value.
@@ -42,7 +44,9 @@ extension VectorProtocol {
     }
 }
 
-extension VectorProtocol where Index: RawRepresentable, Index.RawValue == Swift.Int {
+// MARK: - Collection Extensions
+
+extension VectorProtocol where Self.Index: RawRepresentable, Self.Index.RawValue == Swift.Int {
 
     /// Access individual elements of the vector via subscript.
     public subscript(position: Self.Index) -> Self.Element {
@@ -58,6 +62,8 @@ extension VectorProtocol where Self.Iterator == Vector.Iterator {
         return _vector.makeIterator()
     }
 }
+
+// MARK: - Equatable & Comparable
 
 extension VectorProtocol where Self.Vector: Equatable {
 

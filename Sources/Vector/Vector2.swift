@@ -28,3 +28,11 @@ public struct Vector2<Scalar>: VectorProtocol, Equatable where Scalar: Numeric &
         _vector = vector
     }
 }
+
+extension Vector2 {
+
+    /// Initialize a vector with the specified elements.
+    @_transparent init(index0: Scalar, index1: Scalar) {
+        self.init(vector: .init(index0, index1))
+    }
+}

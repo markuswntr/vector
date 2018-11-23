@@ -20,7 +20,7 @@ public protocol RawVector: Collection {
 extension RawVector {
 
     /// Initialize to a vector with all elements equal to `scalar`.
-    @_transparent 
+    @_transparent
     public init(scalar: Element) {
         self.init(scalar)
     }

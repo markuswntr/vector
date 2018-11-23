@@ -5,11 +5,11 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/803ddcc9676c4910bd11b804801eeca8)](https://app.codacy.com/app/markuswntr/vector)
 ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20linux-lightgrey.svg)
 
-Defines a fixed length collection, a vector collection, the properties of space, raw [SIMD](https://en.wikipedia.org/wiki/SIMD) vector and protocols for **Vector2** (e.g. Point2, Size2), **Vector3** (e.g. Point3, Size3, RGB Color) and **Vector4**  (e.g. RGBA Color).
+Defines a fixed length collection, a vector collection, the properties of space, raw [SIMD](https://en.wikipedia.org/wiki/SIMD) vector and generic **Vector2** (e.g. Point2, Size2), **Vector3** (e.g. Point3, Size3, RGB Color) and **Vector4**  (e.g. RGBA Color).
 
 The `Vector` module does not have any dependency and builds on macOS and Linux.
 
-> Note: Protocol extensions on `Vector(2|3|4)` require **SIMD** to be available on the target hardware.
+> Note: Protocol extensions on raw vectors require **<simd.h>** (as of now Apple only) to be available on the target hardware.
 
 ## 1. Collections
 
@@ -26,7 +26,7 @@ A vector is defined by two or more values. So a `Collection` based implemention 
 ### VectorCollection
 
 There are more restrictions to a collection that define a vector than being non-resizeable and of fixed length, like allowing random access and defining the origin of the vector spaces. As these are not applicable to `StaticCollection` a new `VectorCollection` protocol is introduced by the module.
-A `VectorCollection` is a non-resizable random access collection, conforming to `StaticCollection` and `RandomAccessCollection`, that defines vector spaces (`cardinality`) by the length of it.
+A `VectorCollection` is a non-resizable random access collection, conforming to `StaticCollection` and `RandomAccessCollection`, that defines the number of vector spaces (`cardinality`) by the length of it.
 It requires conforming types to implement the origin of the vector space, by defining a `zero` Vector.
 
 ## 2. RawVector & SIMD

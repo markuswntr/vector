@@ -36,7 +36,7 @@ public struct Vector4<Scalar>: VectorProtocol, Equatable where Scalar: Numeric &
 extension Vector4 {
 
     /// Initialize a vector with the specified elements.
-    @_transparent init(index0: Scalar, index1: Scalar, index2: Scalar, index3: Scalar) {
+    @_transparent public init(index0: Scalar, index1: Scalar, index2: Scalar, index3: Scalar) {
         self.init(vector: .init(index0, index1, index2, index3))
     }
 }

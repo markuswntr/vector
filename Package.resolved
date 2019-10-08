@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SIMDX",
+        "repositoryURL": "https://github.com/markuswntr/simdx.git",
+        "state": {
+          "branch": "master",
+          "revision": "edc9cf25a8523be1bea95e30e642ddcc04827e37",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

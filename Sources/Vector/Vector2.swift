@@ -1,28 +1,64 @@
+// Copyright 2019 Markus Winter
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import Foundation
+import SIMDX
 
-/// Indices of a `Vector2` are described by 2 indexed values
-///
-/// - index0: The index that describes the first position in the collection
-/// - index1: The index that describes the second position in the collection
-public enum VectorIndex2: Swift.Int, VectorIndex {
-    case index0 // Examples: On Point2, this would be `x`, on sizes this would be `width`, on RGBA colors this would be `r`
-    case index1 // Examples: On Point2, this would be `y`, on sizes this would be `height`, on RGBA colors this would be `g`
+/// Defines a 2-dimensional vector, backed by a `SIMDX2` and described by an element type that is `RawStorable2`
+public struct Vector2<Scalar>: Vector where Scalar: RawStorable2 {
+    public typealias RawValue = SIMDX2<Scalar>
+    public typealias Index = RawValue.Index
+
+    /// The raw value storage of the vector
+    public var rawValue: RawValue
+
+    /// Inititializes a new vector to given rawValue storage.
+    /// - Parameter rawValue: The rawValue storage to back this vector
+    @inlinable public init(rawValue: RawValue) {
+        self.rawValue = rawValue
+    }
+
+    @inlinable public init(projectedX x: Scalar, y: Scalar) {
+        self.init(rawValue: .init(index0: x, index1: y))
+    }
 }
 
-/// Defines a 2-dimensional vector, backed by a `RawVector2` and described by an element type that is `RawVectorizable2`
-public protocol Vector2: VectorProtocol where Element: RawVectorizable2, Element.RawVector2: Equatable {
+// MARK: Magnitude & Direction
+extension Vector2 {
 
-    /// The vector type of the underlying optimized vector
-    associatedtype Vector = Element.RawVector2
-
-    /// Indices of a `Vector2`
-    associatedtype Index = VectorIndex2
+    /// The cardinality of the vector spaces, i.e. the count of components
+    @inlinable public var count: Int { 2 } // This must never change
 }
 
-extension Vector2 where Vector == Element.RawVector2 {
+// MARK: Projection
+extension Vector2 {
 
-    /// Initialize a vector with the specified elements.
-    @_transparent public init(index0: Element, index1: Element) {
-        self.init(vector: .init(index0, index1))
+    /// The components of the vector when orthogonal projected, i.e. (x,y)
+    public struct OrthogonalProjection: Projection {
+
+        /// The unprojected vector storage
+        public let storage: RawValue
+
+        /// Initializes a projected view on given vector storage.
+        @inlinable public init(on storage: RawValue) {
+            self.storage = storage
+        }
+
+        /// The x-compontent of the vector in an orthogonal projection
+        @inlinable public var x: Scalar { storage[.index0] }
+
+        /// The y-compontent of the vector in an orthogonal projection
+        @inlinable public var y: Scalar { storage[.index1] }
     }
 }

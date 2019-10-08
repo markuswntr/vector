@@ -1,4 +1,0 @@
-line_length: 140
-force_cast: error
-identifier_name:
-    excluded: ['_vector', 'x', 'y', 'z', 'w']

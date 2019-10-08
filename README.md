@@ -1,5 +1,8 @@
 # Vector
 
+## TODO
+- [ ] Evaluate the performance of the vector projection. It must not hit on the performance of a vector when not accessed.
+
 [![Swift Version](https://img.shields.io/badge/Swift-4.2-red.svg)](https://swift.org/)
 [![Build Status](https://travis-ci.com/markuswntr/vector.svg?branch=master)](https://travis-ci.com/markuswntr/vector)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/803ddcc9676c4910bd11b804801eeca8)](https://app.codacy.com/app/markuswntr/vector)

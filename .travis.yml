@@ -4,14 +4,11 @@ os:
 language: generic
 sudo: required
 dist: trusty
-osx_image: xcode10.1
+osx_image: xcode11
 env:
-    - SWIFT_VERSION=swift-4.2
+    - SWIFT_VERSION=swift-5.1
 install:
     - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 script:
-    - swift build
     - swift build -c release
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then swift test; fi
-after_success:
-    - eval "$(curl -sL https://codecov.io/bash)"

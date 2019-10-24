@@ -1,18 +1,48 @@
 # Vector
 
-## TODO
-- [ ] Evaluate the performance of the vector projection. It must not hit on the performance of a vector when not accessed.
-
-[![Swift Version](https://img.shields.io/badge/Swift-4.2-red.svg)](https://swift.org/)
 [![Build Status](https://travis-ci.com/markuswntr/vector.svg?branch=master)](https://travis-ci.com/markuswntr/vector)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/803ddcc9676c4910bd11b804801eeca8)](https://app.codacy.com/app/markuswntr/vector)
-![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20linux-lightgrey.svg)
 
-Defines a fixed length collection, a vector collection, the properties of space, raw [SIMD](https://en.wikipedia.org/wiki/SIMD) vector and generic **Vector2** (e.g. Point2, Size2), **Vector3** (e.g. Point3, Size3, RGB Color) and **Vector4**  (e.g. RGBA Color).
+Defines the properties of space, an euclidean `Vector` protocol and `Vector2`, `Vector3` and `Vector4` as implementations of an euclidean
+vector with known length. Vectors can be used to calculate 📦 [geometric values](https:/github.com/markuswntr/geometry), dot products or 
+cross products, and to interpolate between values. You can use vectors to modify data such as
+🎨 [Color](https:/github.com/markuswntr/color), or positions in 2D or 3D space. Vector operations are inlined by 
+[SIMD](https://en.wikipedia.org/wiki/SIMD) intrinsic functions of the target hardware whenever possible.  
 
-The `Vector` module does not have any dependency and builds on macOS and Linux.
+The module has no dependencies, no platform restrictions nor hardware requirements. There is a fallback in place for hardware targets with
+limit or no support for SIMD intrinsic functions.
 
-> Note: Protocol extensions on raw vectors require **<simd.h>** (as of now Apple only) to be available on the target hardware.
+## Overview
+
+A vector is comparable to a fixed-length array containing numeric values (i.e. floating-point, signed integer or unsigned integer). The library
+provides support for small vectors, that is, vectors that contain up to four numeric values – with longer vectors coming later. 
+
+You can use the library to apply a single instruction to each element in the vector.
+For example, consider two vectors, each containing four elements:
+
+```
+let lhs: Vector<Float> = [2, 4, 5, 8]
+let rhs: Vector<Float> = [5, 6, 7, 8]
+```
+
+You can easily find, for example, the element-wise sum of the two vectors by using the `+` operator:
+
+```
+let sum = lhs + rhs    // sum = (7.0, 10.0, 12.0, 16.0)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 1. Collections
 

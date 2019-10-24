@@ -13,58 +13,67 @@
 // limitations under the License.
 
 import Foundation
-import SIMDX
 
-/// Defines a 4-dimensional vector, backed by a `SIMDX4` and described by an element type that is `RawStorable4`
-public struct Vector4<Scalar>: Vector where Scalar: RawStorable4 {
-    public typealias RawValue = SIMDX4<Scalar>
-    public typealias Index = RawValue.Index
+/// Defines a 4-dimensional vector, backed by `SIMD4` and described by an `SIMDScalar` element type
+public struct Vector4<Scalar>: Vector where Scalar: SIMDScalar {
+    public typealias RawValue = SIMD4<Scalar>
 
     /// The raw value storage of the vector
     public var rawValue: RawValue
 
-    /// Inititializes a new vector to given rawValue storage.
+    /// Creates a new vector to given rawValue storage.
     /// - Parameter rawValue: The rawValue storage to back this vector
     @inlinable public init(rawValue: RawValue) {
         self.rawValue = rawValue
     }
-
-    @inlinable public init(projectedX x: Scalar, y: Scalar, z: Scalar, w: Scalar) {
-        self.init(rawValue: .init(index0: x, index1: y, index2: z, index3: w))
-    }
-}
-
-// MARK: Magnitude & Direction
-extension Vector4 {
-
-    /// The cardinality of the vector spaces, i.e. the count of components
-    @inlinable public var count: Int { 4 }
 }
 
 // MARK: Projection
 extension Vector4 {
 
     /// The components of the vector when orthogonal projected, i.e. (x,y,z,w)
-    public struct OrthogonalProjection: Projection {
+    public struct OrthogonalProjection: Projection, Equatable {
+
+        /// The x-compontent of the vector in an orthogonal projection
+        @inlinable public var x: Scalar { storage[0] }
+
+        /// The y-compontent of the vector in an orthogonal projection
+        @inlinable public var y: Scalar { storage[1] }
+
+        /// The z-compontent of the vector in an orthogonal projection
+        @inlinable public var z: Scalar { storage[2] }
+
+        /// The w-compontent of the vector in an orthogonal projection
+        @inlinable public var w: Scalar { storage[3] }
 
         /// The unprojected vector storage
         public let storage: RawValue
 
-        /// Initializes a projected view on given vector storage.
+        /// Creates a projected view on given vector storage.
+        /// - Parameter storage: The storage of the vector to project
         @inlinable public init(on storage: RawValue) {
             self.storage = storage
         }
 
-        /// The x-compontent of the vector in an orthogonal projection
-        @inlinable public var x: Scalar { storage[.index0] }
+        /// Returns a Boolean value indicating whether the projected values are equal.
+        ///
+        /// Equality is the inverse of inequality.
+        /// For any values `a` and `b`, `a == b` implies that `a != b` is `false`.
+        ///
+        /// - Parameters:
+        ///   - lhs: A value to compare.
+        ///   - rhs: Another value to compare.
+        @inlinable public static func == (lhs: Self, rhs: Self) -> Bool {
+            return lhs.storage == rhs.storage
+        }
+    }
 
-        /// The y-compontent of the vector in an orthogonal projection
-        @inlinable public var y: Scalar { storage[.index1] }
-
-        /// The z-compontent of the vector in an orthogonal projection
-        @inlinable public var z: Scalar { storage[.index2] }
-
-        /// The z-compontent of the vector in an orthogonal projection
-        @inlinable public var w: Scalar { storage[.index3] }
+    /// Creates a new vector from given orthogonal projected values.
+    /// - Parameter projectedX: The orthogonal projected x-axis value of the resulting vector.
+    /// - Parameter projectedY: The orthogonal projected y-axis value of the resulting vector.
+    /// - Parameter projectedZ: The orthogonal projected z-axis value of the resulting vector.
+    /// - Parameter projectedW: The orthogonal projected w-axis value of the resulting vector.
+    @inlinable public init(x projectedX: Scalar, y projectedY: Scalar, z projectedZ: Scalar, w projectedW: Scalar) {
+        self.init(rawValue: .init(projectedX, projectedY, projectedZ, projectedW))
     }
 }

@@ -1,6 +1,6 @@
 import XCTest
 
-#if !os(macOS) && !os(iOS) && !os(tvOS) && !os(watchOS)
+#if !canImport(ObjectiveC)
 public func allTests() -> [XCTestCaseEntry] {
     return [
         testCase(Vector2Tests.allTests),

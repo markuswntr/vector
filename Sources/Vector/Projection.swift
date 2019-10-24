@@ -13,14 +13,14 @@
 // limitations under the License.
 
 import Foundation
-import SIMDX
 
-/// The projection of a vector (also known as vector components or vector resolution) is the orthogonal projection
-/// of the vector onto a coordinate system of same cardinality. See: https://en.wikipedia.org/wiki/Vector_projection
+/// The projection of a vector (also known as vector components or vector resolution) describes
+/// the properties of the vector when projected onto a coordinate system of same cardinality.
+/// See: https://en.wikipedia.org/wiki/Vector_projection
 public protocol Projection {
 
     /// The storage type of the vector to be projected
-    associatedtype Storage: SIMDX
+    associatedtype Storage: SIMD
 
     /// The unprojected vector storage
     var storage: Storage { get }

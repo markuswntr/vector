@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/markuswntr/vector.svg?branch=master)](https://travis-ci.com/markuswntr/vector)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/803ddcc9676c4910bd11b804801eeca8)](https://app.codacy.com/app/markuswntr/vector)
 
-Defines the properties of space, an euclidean `Vector` protocol and `Vector2`, `Vector3` and `Vector4` as implementations of an euclidean
+Defines the properties of space, an `EuclideanVector` protocol and `Vector2`, `Vector3` and `Vector4` as implementations of an euclidean
 vector with known length. Vectors can be used to calculate 📦 [geometric values](https:/github.com/markuswntr/geometry), dot products or 
 cross products, and to interpolate between values. You can use vectors to modify data such as
 🎨 [Color](https:/github.com/markuswntr/color), or positions in 2D or 3D space. Vector operations are inlined by 

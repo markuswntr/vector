@@ -76,6 +76,21 @@ final class Vector4Tests: XCTestCase {
 
     // MARK: Numerics
 
+    func testNumericAvailability() {
+        XCTAssertNotNil(Vector4<Int8>(repeating: 2))
+        XCTAssertNotNil(Vector4<Int16>(repeating: 2))
+        XCTAssertNotNil(Vector4<Int32>(repeating: 2))
+        XCTAssertNotNil(Vector4<Int64>(repeating: 2))
+
+        XCTAssertNotNil(Vector4<UInt8>(repeating: 2))
+        XCTAssertNotNil(Vector4<UInt16>(repeating: 2))
+        XCTAssertNotNil(Vector4<UInt32>(repeating: 2))
+        XCTAssertNotNil(Vector4<UInt64>(repeating: 2))
+
+        XCTAssertNotNil(Vector4<Float32>(repeating: 2))
+        XCTAssertNotNil(Vector4<Float64>(repeating: 2))
+    }
+
     func testEquatable() {
         let lhs: Vector4<Int> = [.min, 640, .zero, 256]
         let rhs: Vector4<Int> = [.min, 640, .zero, 256]
@@ -113,26 +128,6 @@ final class Vector4Tests: XCTestCase {
         XCTAssertEqual(zeroVector[3], .zero)
     }
 
-    func testAddFixedWidthIntegerVector() {
-        let lhs: Vector4<Int> = [2, 4, -8, -16]
-        let rhs: Vector4<Int> = [4, -2, -8, 16]
-        let addVector = lhs &+ rhs
-        XCTAssertEqual(addVector[0], 6)
-        XCTAssertEqual(addVector[1], 2)
-        XCTAssertEqual(addVector[2], -16)
-        XCTAssertEqual(addVector[3], .zero)
-    }
-
-    func testAddFloatingPointVector() {
-        let lhs: Vector4<Int> = [2, 4, -8, -16]
-        let rhs: Vector4<Int> = [4, -2, -8, 16]
-        let addVector = lhs &+ rhs
-        XCTAssertEqual(addVector[0], 6)
-        XCTAssertEqual(addVector[1], 2)
-        XCTAssertEqual(addVector[2], -16)
-        XCTAssertEqual(addVector[3], .zero)
-    }
-
     func testMagnitudeSquaredFixedWidthIntegerVector() {
         let vector: Vector4<Int> = [3, 4, 5, 6]
         let squared = vector.magnitudeSquared()
@@ -157,19 +152,24 @@ final class Vector4Tests: XCTestCase {
         XCTAssertEqual(magnitude, sqrt(86))
     }
 
-    func testNumericAvailability() {
-        XCTAssertNotNil(Vector4<Int8>(repeating: 2))
-        XCTAssertNotNil(Vector4<Int16>(repeating: 2))
-        XCTAssertNotNil(Vector4<Int32>(repeating: 2))
-        XCTAssertNotNil(Vector4<Int64>(repeating: 2))
+    func testAddFixedWidthIntegerVector() {
+        let lhs: Vector4<Int> = [2, 4, -8, -16]
+        let rhs: Vector4<Int> = [4, -2, -8, 16]
+        let addVector = lhs &+ rhs
+        XCTAssertEqual(addVector[0], 6)
+        XCTAssertEqual(addVector[1], 2)
+        XCTAssertEqual(addVector[2], -16)
+        XCTAssertEqual(addVector[3], .zero)
+    }
 
-        XCTAssertNotNil(Vector4<UInt8>(repeating: 2))
-        XCTAssertNotNil(Vector4<UInt16>(repeating: 2))
-        XCTAssertNotNil(Vector4<UInt32>(repeating: 2))
-        XCTAssertNotNil(Vector4<UInt64>(repeating: 2))
-
-        XCTAssertNotNil(Vector4<Float32>(repeating: 2))
-        XCTAssertNotNil(Vector4<Float64>(repeating: 2))
+    func testAddFloatingPointVector() {
+        let lhs: Vector4<Int> = [2, 4, -8, -16]
+        let rhs: Vector4<Int> = [4, -2, -8, 16]
+        let addVector = lhs &+ rhs
+        XCTAssertEqual(addVector[0], 6)
+        XCTAssertEqual(addVector[1], 2)
+        XCTAssertEqual(addVector[2], -16)
+        XCTAssertEqual(addVector[3], .zero)
     }
 
     static var allTests = [
@@ -181,16 +181,16 @@ final class Vector4Tests: XCTestCase {
         ("testProjectionInitializer", testProjectionInitializer),
         ("testProjectionProperties", testProjectionProperties),
         ("testProjectionEquatable", testProjectionEquatable),
+        ("testNumericAvailability", testNumericAvailability),
         ("testEquatable", testEquatable),
         ("testComparable", testComparable),
         ("testZeroFixedWidthIntegerVector", testZeroFixedWidthIntegerVector),
         ("testZeroFloatingPointVector", testZeroFloatingPointVector),
-        ("testAddFixedWidthIntegerVector", testAddFixedWidthIntegerVector),
-        ("testAddFloatingPointVector", testAddFloatingPointVector),
         ("testMagnitudeSquaredFixedWidthIntegerVector", testMagnitudeSquaredFixedWidthIntegerVector),
         ("testMagnitudeSquaredFloatinPointVector", testMagnitudeSquaredFloatinPointVector),
         ("testMagnitudeFixedWidthIntegerVector", testMagnitudeFixedWidthIntegerVector),
         ("testMagnitudeFloatinPointVector", testMagnitudeFloatinPointVector),
-        ("testNumericAvailability", testNumericAvailability)
+        ("testAddFixedWidthIntegerVector", testAddFixedWidthIntegerVector),
+        ("testAddFloatingPointVector", testAddFloatingPointVector),
     ]
 }

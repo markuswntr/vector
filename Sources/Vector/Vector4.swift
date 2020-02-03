@@ -15,7 +15,7 @@
 import Foundation
 
 /// Defines a 4-dimensional vector, backed by `SIMD4` and described by an `SIMDScalar` element type
-public struct Vector4<Scalar>: Vector where Scalar: SIMDScalar {
+public struct Vector4<Scalar>: EuclideanVector where Scalar: SIMDScalar {
     public typealias RawValue = SIMD4<Scalar>
 
     /// The raw value storage of the vector

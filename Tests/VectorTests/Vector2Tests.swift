@@ -63,6 +63,21 @@ final class Vector2Tests: XCTestCase {
 
     // MARK: Numerics
 
+    func testNumericAvailability() {
+        XCTAssertNotNil(Vector2<Int8>(repeating: 2))
+        XCTAssertNotNil(Vector2<Int16>(repeating: 2))
+        XCTAssertNotNil(Vector2<Int32>(repeating: 2))
+        XCTAssertNotNil(Vector2<Int64>(repeating: 2))
+
+        XCTAssertNotNil(Vector2<UInt8>(repeating: 2))
+        XCTAssertNotNil(Vector2<UInt16>(repeating: 2))
+        XCTAssertNotNil(Vector2<UInt32>(repeating: 2))
+        XCTAssertNotNil(Vector2<UInt64>(repeating: 2))
+
+        XCTAssertNotNil(Vector2<Float32>(repeating: 2))
+        XCTAssertNotNil(Vector2<Float64>(repeating: 2))
+    }
+
     func testEquatable() {
         let lhs: Vector2<Int> = [.min, 640]
         let rhs: Vector2<Int> = [.min, 640]
@@ -108,6 +123,67 @@ final class Vector2Tests: XCTestCase {
         XCTAssertEqual(addVector[1], 2)
     }
 
+    func testSubFixedWidthIntegerVector() {
+        let subVector: Vector2<Int> = [2, 5] &- [4, -3]
+        XCTAssertEqual(subVector[0], -2)
+        XCTAssertEqual(subVector[1], 8)
+    }
+
+    func testSubFloatingPointVector() {
+        let subVector: Vector2<Float32> = [2, 5] - [4, -3]
+        XCTAssertEqual(subVector[0], -2)
+        XCTAssertEqual(subVector[1], 8)
+    }
+
+    func testScaleFixedWidthIntegerVector() {
+        var scaleVector: Vector2<Int> = [2, 5]
+        scaleVector.scale(by: 2)
+        XCTAssertEqual(scaleVector[0], 4)
+        XCTAssertEqual(scaleVector[1], 10)
+
+        let scaledVector = scaleVector.scaled(by: 3)
+        XCTAssertEqual(scaledVector[0], 12)
+        XCTAssertEqual(scaledVector[1], 30)
+
+        var operatorVector: Vector2<Int> = [2, 5]
+        operatorVector = operatorVector &* 2
+        XCTAssertEqual(operatorVector[0], 4)
+        XCTAssertEqual(operatorVector[1], 10)
+
+        operatorVector &*= 3
+        XCTAssertEqual(operatorVector[0], 12)
+        XCTAssertEqual(operatorVector[1], 30)
+    }
+
+    func testScaleFloatingPointVector() {
+        var scaleVector: Vector2<Float64> = [2, 5]
+        scaleVector.scale(by: 2)
+        XCTAssertEqual(scaleVector[0], 4)
+        XCTAssertEqual(scaleVector[1], 10)
+
+        let scaledVector = scaleVector.scaled(by: 3)
+        XCTAssertEqual(scaledVector[0], 12)
+        XCTAssertEqual(scaledVector[1], 30)
+
+        var multiplyOperatorVector: Vector2<Float64> = [2, 5]
+        multiplyOperatorVector = multiplyOperatorVector * 2
+        XCTAssertEqual(multiplyOperatorVector[0], 4)
+        XCTAssertEqual(multiplyOperatorVector[1], 10)
+
+        multiplyOperatorVector *= 3
+        XCTAssertEqual(multiplyOperatorVector[0], 12)
+        XCTAssertEqual(multiplyOperatorVector[1], 30)
+
+        var divisionOperatorVector: Vector2<Float64> = [12, 30]
+        divisionOperatorVector = divisionOperatorVector / 2
+        XCTAssertEqual(divisionOperatorVector[0], 6)
+        XCTAssertEqual(divisionOperatorVector[1], 15)
+
+        divisionOperatorVector /= 3
+        XCTAssertEqual(divisionOperatorVector[0], 2)
+        XCTAssertEqual(divisionOperatorVector[1], 5)
+    }
+
     func testMagnitudeSquaredFixedWidthIntegerVector() {
         let vector: Vector2<Int> = [3, 4]
         let squared = vector.magnitudeSquared()
@@ -132,19 +208,12 @@ final class Vector2Tests: XCTestCase {
         XCTAssertEqual(magnitude, 5)
     }
 
-    func testNumericAvailability() {
-        XCTAssertNotNil(Vector2<Int8>(repeating: 2))
-        XCTAssertNotNil(Vector2<Int16>(repeating: 2))
-        XCTAssertNotNil(Vector2<Int32>(repeating: 2))
-        XCTAssertNotNil(Vector2<Int64>(repeating: 2))
-
-        XCTAssertNotNil(Vector2<UInt8>(repeating: 2))
-        XCTAssertNotNil(Vector2<UInt16>(repeating: 2))
-        XCTAssertNotNil(Vector2<UInt32>(repeating: 2))
-        XCTAssertNotNil(Vector2<UInt64>(repeating: 2))
-
-        XCTAssertNotNil(Vector2<Float32>(repeating: 2))
-        XCTAssertNotNil(Vector2<Float64>(repeating: 2))
+    func testNormalizeFloatinPointVector() {
+        var vector: Vector2<Float32> = [3, 4]
+        let unit = vector.normalized()
+        XCTAssertEqual(unit.magnitude(), 1)
+        vector.normalize(to: 1000)
+        XCTAssertEqual(vector.magnitude(), 1000)
     }
 
     static var allTests = [
@@ -156,16 +225,21 @@ final class Vector2Tests: XCTestCase {
         ("testProjectionInitializer", testProjectionInitializer),
         ("testProjectionProperties", testProjectionProperties),
         ("testProjectionEquatable", testProjectionEquatable),
+        ("testNumericAvailability", testNumericAvailability),
         ("testEquatable", testEquatable),
         ("testComparable", testComparable),
         ("testZeroFixedWidthIntegerVector", testZeroFixedWidthIntegerVector),
         ("testZeroFloatingPointVector", testZeroFloatingPointVector),
         ("testAddFixedWidthIntegerVector", testAddFixedWidthIntegerVector),
         ("testAddFloatingPointVector", testAddFloatingPointVector),
+        ("testSubFixedWidthIntegerVector", testSubFixedWidthIntegerVector),
+        ("testSubFloatingPointVector", testSubFloatingPointVector),
+        ("testScaleFixedWidthIntegerVector", testScaleFixedWidthIntegerVector),
+        ("testScaleFloatingPointVector", testScaleFloatingPointVector),
         ("testMagnitudeSquaredFixedWidthIntegerVector", testMagnitudeSquaredFixedWidthIntegerVector),
         ("testMagnitudeSquaredFloatinPointVector", testMagnitudeSquaredFloatinPointVector),
         ("testMagnitudeFixedWidthIntegerVector", testMagnitudeFixedWidthIntegerVector),
         ("testMagnitudeFloatinPointVector", testMagnitudeFloatinPointVector),
-        ("testNumericAvailability", testNumericAvailability)
+        ("testNormalizeFloatinPointVector", testNormalizeFloatinPointVector),
     ]
 }

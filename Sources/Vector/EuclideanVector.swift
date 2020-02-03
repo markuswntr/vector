@@ -16,7 +16,7 @@ import Foundation
 
 // A non-resizable mutable, random access collection, that defines vector spaces of different cardinality by the
 // `count` of it. It is backed by a `RawVector` and described, when orthogonal projected, by `Scalar` values.
-public protocol Vector: RawRepresentable, RandomAccessCollection, MutableCollection, ExpressibleByArrayLiteral where Index == Int {
+public protocol EuclideanVector: RandomAccessCollection, MutableCollection, RawRepresentable, ExpressibleByArrayLiteral where Index == Int {
 
     /// An euclidean vector is described by scalar values
     associatedtype Scalar where Scalar == Element, Scalar == RawValue.Scalar
@@ -41,7 +41,7 @@ public protocol Vector: RawRepresentable, RandomAccessCollection, MutableCollect
 }
 
 // MARK: Collection & ExpressibleByArrayLiteral
-extension Vector {
+extension EuclideanVector {
 
     /// The cardinality of the vector spaces, i.e. the count of components
     @inlinable public var count: Int { rawValue.scalarCount }
@@ -76,7 +76,7 @@ extension Vector {
 }
 
 // MARK: Projection
-extension Vector {
+extension EuclideanVector {
 
     /// The components of the vector when orthogonal projected into a coordinate system of same cardinality.
     @inlinable public var projection: OrthogonalProjection { .init(on: rawValue) }
@@ -90,7 +90,7 @@ extension Vector {
 // MARK: - The Numeric Road -
 
 // MARK: Fixed Width Integer
-extension Vector where Scalar: FixedWidthInteger {
+extension EuclideanVector where Scalar: FixedWidthInteger {
 
     /// The zero vector, i.e. the origin of the vector space
     @inlinable public static var zero: Self { .init(rawValue: RawValue.zero) }
@@ -98,10 +98,53 @@ extension Vector where Scalar: FixedWidthInteger {
     /// Returns the elementwise sum of the two vectors.
     ///
     /// - Note: No integer overflow handling.
-    public static func &+ (lhs: Self, rhs: Self) -> Self {
+    @inlinable public static func &+ (lhs: Self, rhs: Self) -> Self {
         var lhs = lhs
         lhs.rawValue &+= rhs.rawValue
         return lhs
+    }
+
+    /// Returns the elementwise difference of the two vectors.
+    ///
+    /// - Note: No integer overflow handling.
+    @inlinable public static func &- (lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs
+        lhs.rawValue &-= rhs.rawValue
+        return lhs
+    }
+
+    /// Scales the vector by given scalar factor (to multiply the vector with).
+    ///
+    /// - Note: No integer overflow handling.
+    ///
+    /// - Parameter factor: The scale factor to apply to vector.
+    @inlinable public mutating func scale(by factor: Scalar) {
+        rawValue &*= factor
+    }
+
+    /// Scales the vector by given scalar factor (to multiply the vector with) and returns the result.
+    ///
+    /// - Note: No integer overflow handling.
+    ///
+    /// - Parameter factor: The scale factor to apply to vector.
+    @inlinable public func scaled(by factor: Scalar) -> Self {
+        var result = self
+        result.scale(by: factor)
+        return result
+    }
+
+    /// Returns the elementwise scaled product of multiplying the vector by a factor.
+    ///
+    /// - Note: No integer overflow handling.
+    @inlinable public static func &*= (lhs: inout Self, rhs: Scalar) {
+        lhs.scale(by: rhs)
+    }
+
+    /// Returns the elementwise scaled product of multiplying the vector by a factor.
+    ///
+    /// - Note: No integer overflow handling.
+    @inlinable public static func &* (lhs: Self, rhs: Scalar) -> Self {
+        lhs.scaled(by: rhs)
     }
 
     /// The sum of the squares of the two vector values.
@@ -126,15 +169,64 @@ extension Vector where Scalar: FixedWidthInteger {
 }
 
 // MARK: Floating Point
-extension Vector where Scalar: FloatingPoint {
+extension EuclideanVector where Scalar: FloatingPoint {
 
     /// The zero vector, i.e. the origin of the vector space
     @inlinable public static var zero: Self { .init(rawValue: RawValue.zero) }
 
     /// Returns the elementwise sum of the two vectors.
-    public static func + (lhs: Self, rhs: Self) -> Self {
-        var lhs = lhs
+    @inlinable public static func += (lhs: inout Self, rhs: Self) {
         lhs.rawValue += rhs.rawValue
+    }
+
+    /// Returns the elementwise sum of the two vectors.
+    @inlinable public static func + (lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs += rhs; return lhs
+    }
+
+    /// Returns the elementwise difference of the two vectors.
+    @inlinable public static func -= (lhs: inout Self, rhs: Self) {
+        lhs.rawValue -= rhs.rawValue
+    }
+
+    /// Returns the elementwise difference of the two vectors.
+    @inlinable public static func - (lhs: Self, rhs: Self) -> Self {
+        var lhs = lhs; lhs -= rhs; return lhs
+    }
+
+    /// Scales the vector by given scalar factor (to multiply the vector with).
+    /// - Parameter factor: The scale factor to apply to vector.
+    @inlinable public mutating func scale(by factor: Scalar) {
+        rawValue *= factor
+    }
+
+    /// Scales the vector by given scalar factor (to multiply the vector with).
+    /// - Parameter factor: The scale factor to apply to vector.
+    @inlinable public func scaled(by factor: Scalar) -> Self {
+        var result = self
+        result.scale(by: factor)
+        return result
+    }
+
+    /// Returns the elementwise scaled product of multiplying the vector by a factor.
+    @inlinable public static func *= (lhs: inout Self, rhs: Scalar) {
+        lhs.scale(by: rhs)
+    }
+
+    /// Returns the elementwise scaled product of multiplying the vector by a factor.
+    @inlinable public static func * (lhs: Self, rhs: Scalar) -> Self {
+        lhs.scaled(by: rhs)
+    }
+
+    /// Returns the elementwise scaled product of multiplying the vector by a factor.
+    @inlinable public static func /= (lhs: inout Self, rhs: Scalar) {
+        lhs.rawValue /= rhs
+    }
+
+    /// Returns the elementwise scaled product of multiplying the vector by a factor.
+    @inlinable public static func / (lhs: Self, rhs: Scalar) -> Self {
+        var lhs = lhs
+        lhs.rawValue /= rhs
         return lhs
     }
 
@@ -150,12 +242,53 @@ extension Vector where Scalar: FloatingPoint {
     ///
     /// Calculated as the square root of the sum of the squares of the two vector values.
     @inlinable func magnitude() -> Scalar {
-        sqrt(magnitudeSquared())
+        magnitudeSquared().squareRoot()
+    }
+
+    /// Normalizes the vector to given magnitude.
+    ///
+    /// This operation changes only the magnitude of the vector but not its direction.
+    /// If no further `magnitude` is specified the result will be a unit vector (a vector of length `1`).
+    ///
+    /// - Parameter magnitude: The new magnitude of the vector. Defaults to `1` (one).
+    @inlinable public mutating func normalize(to magnitude: Scalar = 1) {
+        rawValue /= magnitudeSquared().squareRoot() // TODO: Test fast inverse sqrt
+        rawValue *= magnitude
+    }
+
+    /// Normalizes the vector to given magnitude and returns the result.
+    ///
+    /// This operation changes only the magnitude of the vector but not its direction.
+    /// If no further `magnitude` is specified, this method returns the unit vector (a vector of length `1`).
+    ///
+    /// - Parameter magnitude: The new magnitude of the vector. Defaults to `1` (one).
+    @inlinable public func normalized(to magnitude: Scalar = 1) -> Self {
+        var result = self
+        result.normalize(to: magnitude)
+        return result
+    }
+
+    /// <# Documentation #>
+    /// - Parameter surfaceNormal: The normal vector at the location where the to be reflected vector hits the surface.
+    @inlinable public func reflect(on surfaceNormal: Self) -> Self {
+        var result = surfaceNormal
+        rawValue - 2 * (rawValue dot surfaceNormal.rawValue) * surfaceNormal.rawValue
+        return result
+    }
+
+    /// Refraction is the change in direction of wave propagation due to a change in its transmission medium.
+    /// - Parameter surfaceNormal: The normal vector at the location where the to be refracted vector hits the surface.
+    /// - Parameter currentIndex: The index of refraction that the the vector is traveling **from**.
+    /// - Parameter newIndex: The index of refraction that the the vector is traveling **to**.
+    @inlinable public func refract(from currentRefractionIndex: Scalar, to newRefractionIndex: Scalar, at surfaceNormal: Self) -> Self {
+        let air = 1.0       // refractive index for air
+        let glass = 1.5     // refractive index for glass
+        let refracted = simd_refract(incident, normal, air / glass)
     }
 }
 
 // MARK: Equatable & Comparable & FixedWidthInteger
-extension Vector where Scalar: Comparable & FixedWidthInteger {
+extension EuclideanVector where Scalar: Comparable & FixedWidthInteger {
 
     /// Returns a Boolean value indicating whether the magnitudes of the two vectors are equal.
     ///
@@ -223,7 +356,7 @@ extension Vector where Scalar: Comparable & FixedWidthInteger {
 }
 
 // MARK: Equatable & Comparable & FloatingPoint
-extension Vector where Scalar: Comparable & FloatingPoint {
+extension EuclideanVector where Scalar: Comparable & FloatingPoint {
 
     /// Returns a Boolean value indicating whether the magnitudes of the two vectors are equal.
     ///

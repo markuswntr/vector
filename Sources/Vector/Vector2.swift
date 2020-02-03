@@ -15,7 +15,7 @@
 import Foundation
 
 /// Defines a 2-dimensional vector, backed by `SIMD2` and described by an `SIMDScalar` element type
-public struct Vector2<Scalar>: Vector where Scalar: SIMDScalar {
+public struct Vector2<Scalar>: EuclideanVector where Scalar: SIMDScalar {
     public typealias RawValue = SIMD2<Scalar>
 
     /// The raw value storage of the vector
@@ -71,7 +71,13 @@ extension Vector2 {
 }
 
 // MARK: Direction
-extension Vector2 where Scalar == Float32 {
+extension Vector2 where Scalar: FloatingPoint {
+
+//    @inlinable init(magnitude: Scalar, direction radian: Scalar) {
+//        self.init(rawValue: .init(x: magnitude * cos(radian), y: magnitude * sin(radian)))
+//    }
+
+    //    @inlinable init(magnitude: Scalar, direction degree: Scalar) {}
 
     /// The direction of the vector.
     ///

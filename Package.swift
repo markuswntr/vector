@@ -7,10 +7,10 @@ let package = Package(
         .library(name: "Vector", targets: ["Vector"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-numerics/", from: "0.0.4")
+        .package(url: "https://github.com/apple/swift-numerics", from: "0.0.4")
     ],
     targets: [
-        .target(name: "Vector"),
+        .target(name: "Vector", dependencies: ["Real"]),
         .testTarget(name: "VectorTests", dependencies: ["Vector"])
     ]
 )

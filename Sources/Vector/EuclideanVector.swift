@@ -90,7 +90,7 @@ extension EuclideanVector {
 // MARK: - The Numeric Road -
 
 // MARK: Fixed Width Integer
-extension EuclideanVector where Scalar: FixedWidthInteger {
+extension EuclideanVector where Scalar: FixedWidthInteger { // TODO: SIMD limits spliting the protocol any further
 
     /// The zero vector, i.e. the origin of the vector space
     @inlinable public static var zero: Self { .init(rawValue: RawValue.zero) }
@@ -169,7 +169,7 @@ extension EuclideanVector where Scalar: FixedWidthInteger {
 }
 
 // MARK: Floating Point
-extension EuclideanVector where Scalar: FloatingPoint {
+extension EuclideanVector where Scalar: FloatingPoint { // TODO: SIMD limits spliting the protocol any further
 
     /// The zero vector, i.e. the origin of the vector space
     @inlinable public static var zero: Self { .init(rawValue: RawValue.zero) }
@@ -252,7 +252,7 @@ extension EuclideanVector where Scalar: FloatingPoint {
     ///
     /// - Parameter magnitude: The new magnitude of the vector. Defaults to `1` (one).
     @inlinable public mutating func normalize(to magnitude: Scalar = 1) {
-        rawValue /= magnitudeSquared().squareRoot() // TODO: Test fast inverse sqrt
+        rawValue /= magnitudeSquared().squareRoot()
         rawValue *= magnitude
     }
 
@@ -266,24 +266,6 @@ extension EuclideanVector where Scalar: FloatingPoint {
         var result = self
         result.normalize(to: magnitude)
         return result
-    }
-
-    /// <# Documentation #>
-    /// - Parameter surfaceNormal: The normal vector at the location where the to be reflected vector hits the surface.
-    @inlinable public func reflect(on surfaceNormal: Self) -> Self {
-        var result = surfaceNormal
-        rawValue - 2 * (rawValue dot surfaceNormal.rawValue) * surfaceNormal.rawValue
-        return result
-    }
-
-    /// Refraction is the change in direction of wave propagation due to a change in its transmission medium.
-    /// - Parameter surfaceNormal: The normal vector at the location where the to be refracted vector hits the surface.
-    /// - Parameter currentIndex: The index of refraction that the the vector is traveling **from**.
-    /// - Parameter newIndex: The index of refraction that the the vector is traveling **to**.
-    @inlinable public func refract(from currentRefractionIndex: Scalar, to newRefractionIndex: Scalar, at surfaceNormal: Self) -> Self {
-        let air = 1.0       // refractive index for air
-        let glass = 1.5     // refractive index for glass
-        let refracted = simd_refract(incident, normal, air / glass)
     }
 }
 
@@ -422,134 +404,3 @@ extension EuclideanVector where Scalar: Comparable & FloatingPoint {
         lhs.magnitudeSquared() >= rhs.magnitudeSquared()
     }
 }
-
-//// MARK: - Arithmetic
-//
-//extension VectorProtocol where RawValue.Element: SignedNumeric {
-//    /// Negation of `rhs`.
-//    @inlinable public prefix static func - (rhs: Self) -> Self {
-//        return .init(sequence: rhs.rawValue.map(-))
-//    }
-//}
-//
-//extension VectorProtocol where RawValue: AdditiveArithmetic {
-//
-//    /// Vector (elementwise) sum of `lhs` and `rhs`.
-//    @inlinable public static func + (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawValue + rhs.rawValue)
-//    }
-//
-//    /// Vector (elementwise) difference of `lhs` and `rhs`.
-//    @inlinable public static func - (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawValue - rhs.rawValue)
-//    }
-//
-//    /// Add `rhs` to `lhs`.
-//    @inlinable public static func += (lhs: inout Self, rhs: Self) {
-//        lhs.rawValue += rhs.rawValue
-//    }
-//
-//    /// Subtract `rhs` from `lhs`.
-//    @inlinable public static func -= (lhs: inout Self, rhs: Self) {
-//        lhs.rawValue -= rhs.rawValue
-//    }
-//}
-//
-//extension VectorProtocol where RawValue: AdditiveOverflowArithmetic {
-//
-//    /// Negation of `rhs`.
-//    @inlinable public prefix static func - (rhs: Self) -> Self {
-//        return .init(rawValue: -rhs.rawValue)
-//    }
-//
-//    /// Vector (elementwise) sum of `lhs` and `rhs`.
-//    @inlinable public static func &+ (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawValue &+ rhs.rawValue)
-//    }
-//
-//    /// Vector (elementwise) difference of `lhs` and `rhs`.
-//    @inlinable public static func &- (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawValue &- rhs.rawValue)
-//    }
-//}
-//
-//extension VectorProtocol where Vector: MultiplicativeArithmetic {
-//
-//    /// Elementwise product of `lhs` and `rhs` (A.k.a. the Hadamard or Schur vector product).
-//    @inlinable public static func * (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawValue * rhs.rawValue)
-//    }
-//
-//    /// Scalar-Vector product.
-//    @inlinable public static func * (lhs: Vector.Scalar, rhs: Self) -> Self {
-//        return .init(rawValue: lhs * rhs.rawValue)
-//    }
-//
-//    /// Scalar-Vector product.
-//    @inlinable public static func * (lhs: Self, rhs: Vector.Scalar) -> Self {
-//        return .init(rawValue: lhs.rawVector * rhs)
-//    }
-//
-//    /// Elementwise quotient of `lhs` and `rhs`.
-//    @inlinable public static func / (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawVector / rhs.rawVector)
-//    }
-//
-//    /// Divide vector by scalar.
-//    @inlinable public static func / (lhs: Self, rhs: Vector.Scalar) -> Self {
-//        return .init(rawValue: lhs.rawVector / rhs)
-//    }
-//
-//    /// Multiply `lhs` by `rhs` (elementwise).
-//    @inlinable public static func *= (lhs: inout Self, rhs: Self) {
-//        lhs.rawVector *= rhs.rawVector
-//    }
-//
-//    /// Divide `lhs` by `rhs` (elementwise).
-//    @inlinable public static func /= (lhs: inout Self, rhs: Self) {
-//        lhs.rawVector /= rhs.rawVector
-//    }
-//
-//    /// Scales `lhs` by `rhs`.
-//    @inlinable public static func *= (lhs: inout Self, rhs: Vector.Scalar) {
-//        lhs.rawVector *= rhs
-//    }
-//
-//    /// Scales `lhs` by `1/rhs`.
-//    @inlinable public static func /= (lhs: inout Self, rhs: Vector.Scalar) {
-//        lhs.rawVector /= rhs
-//    }
-//}
-//
-//extension VectorProtocol where Vector: MultiplicativeOverflowArithmetic {
-//
-//    /// Elementwise product of `lhs` and `rhs` (A.k.a. the Hadamard or Schur vector product).
-//    @inlinable public static func &* (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawVector &* rhs.rawVector)
-//    }
-//
-//    /// Scalar-Vector product.
-//    @inlinable public static func &* (lhs: Vector.Scalar, rhs: Self) -> Self {
-//        return .init(rawValue: lhs &* rhs.rawVector)
-//    }
-//
-//    /// Scalar-Vector product.
-//    @inlinable public static func &* (lhs: Self, rhs: Vector.Scalar) -> Self {
-//        return .init(rawValue: lhs.rawVector &* rhs)
-//    }
-//
-//    /// Elementwise quotient of `lhs` and `rhs`.
-//    @inlinable public static func / (lhs: Self, rhs: Self) -> Self {
-//        return .init(rawValue: lhs.rawVector / rhs.rawVector)
-//    }
-//
-//    /// Divide vector by scalar.
-//    @inlinable public static func / (lhs: Self, rhs: Vector.Scalar) -> Self {
-//        return .init(rawValue: lhs.rawVector / rhs)
-//    }
-//
-//    /// Divide `lhs` by `rhs` (elementwise).
-//    @inlinable public static func /= (lhs: inout Self, rhs: Self) {
-//        lhs.rawVector /= rhs.rawVector
-//    }
-//}
